@@ -9,12 +9,45 @@
 import UIKit
 import Parse
 import ParseUI
+import SDWebImage
 
 class AdoptionTableViewController: PFQueryTableViewController {
 
+    // MARK: Data
+    
+    override func queryForTable() -> PFQuery<PFObject> {
+        return super.queryForTable().order(byAscending: "updateAt")
+    }
+    
+    override init(style: UITableViewStyle, className: String!)
+    {
+        super.init(style: style, className: className)
+        self.loadingViewEnabled = true
+        self.pullToRefreshEnabled = true
+        self.paginationEnabled = true
+        self.objectsPerPage = 20
+        self.parseClassName = className
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        
+        // Configure the PFQueryTableView
+        self.parseClassName = "Adoption"
+        self.pullToRefreshEnabled = true
+        self.paginationEnabled = true
+        self.objectsPerPage = 20
+    }
+    
+    override func objectsDidLoad(_ error: Error?) {
+        super.objectsDidLoad(error)
+        print("objects = \(String(describing: objects?.count))")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,18 +60,63 @@ class AdoptionTableViewController: PFQueryTableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    // MARK: TableView
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell? {
+        let cellIdentifier = "cell"
+        
+        if (indexPath.row == ((self.objects?.count)! - 1)) {
+            // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
+            let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
+            return cell
+        } else {
+            var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PFTableViewCell
+            if cell == nil {
+                cell = PFTableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+            }
+            
+            cell?.textLabel?.text = object?["animalPlace"] as? String
+            cell?.imageView?.sd_setImage(with: URL(string: object?.object(forKey: "albumFile") as! String), completed: { (image, error, type, url) in
+                
+            })
+            var subtitle: String
+            if let priority = object?["priority"] as? Int {
+                subtitle = "Priority: \(priority)"
+            } else {
+                subtitle = "No Priority"
+            }
+            cell?.detailTextLabel?.text = subtitle
+            
+            return cell
+        }
+        
     }
-
+    
+    override func tableView(_ tableView: UITableView, cellForNextPageAt indexPath: IndexPath) -> PFTableViewCell? {
+        let LoadMoreCellIdentifier = "loadMore"
+        
+        var cell: PFTableViewCell? = tableView.dequeueReusableCell(withIdentifier: LoadMoreCellIdentifier) as? PFTableViewCell
+        if cell == nil {
+            cell = PFTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: LoadMoreCellIdentifier)
+            cell!.selectionStyle = UITableViewCellSelectionStyle.none
+            cell?.textLabel?.text = "載入更多"
+        }
+        return cell!
+    }
+    
+    // MARK:- UITableViewDelegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.row == ( self.objects!.count - 1 ) {
+            self.loadNextPage()
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.objects!.count
     }
-
+    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

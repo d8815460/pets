@@ -17,12 +17,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-
+        /*
         Alamofire.request("http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL").responseJSON { response in
             if response.result.isSuccess {
                 // convert data to dictionary array
                 let result:NSArray = response.value as! NSArray
-
                 if result.count > 0 {
                     for data in result {
                         let adoption = PFObject(className: "Adoption")
@@ -68,6 +67,7 @@ class ViewController: UIViewController {
                 print("error: \(String(describing: response.error))")
             }
         }
+        */
         /*
         let urlString:String = "http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL"
         var url:NSURL!

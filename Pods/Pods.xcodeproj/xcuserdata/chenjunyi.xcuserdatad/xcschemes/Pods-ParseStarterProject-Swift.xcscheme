@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8E65A80E1CBF2845E4384C2C32D54539"
+               BlueprintIdentifier = "FF954A851860832DB6D93D6D3D75AC96"
                BuildableName = "Pods_ParseStarterProject_Swift.framework"
                BlueprintName = "Pods-ParseStarterProject-Swift"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -36,6 +37,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8E65A80E1CBF2845E4384C2C32D54539"
+            BlueprintIdentifier = "FF954A851860832DB6D93D6D3D75AC96"
             BuildableName = "Pods_ParseStarterProject_Swift.framework"
             BlueprintName = "Pods-ParseStarterProject-Swift"
             ReferencedContainer = "container:Pods.xcodeproj">

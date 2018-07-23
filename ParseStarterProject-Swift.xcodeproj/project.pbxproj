@@ -165,7 +165,7 @@
 				TargetAttributes = {
 					81BA81441A49DA1800E65899 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = D3QVFELAEF;
+						DevelopmentTeam = DNX54GYZPT;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 					};
@@ -214,6 +214,7 @@
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
 				"${BUILT_PRODUCTS_DIR}/ParseUI/ParseUI.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -221,6 +222,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ParseUI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -376,9 +378,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0FF9A144505B5C7827ACB327 /* Pods-ParseStarterProject-Swift.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = D3QVFELAEF;
+				DEVELOPMENT_TEAM = DNX54GYZPT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -388,8 +389,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ParseStarterProject-Swift";
-				PROVISIONING_PROFILE = "a18fb6bf-cc7e-42fe-973c-ff71c1ce96aa";
-				PROVISIONING_PROFILE_SPECIFIER = development;
+				PROVISIONING_PROFILE = "97e4ab93-6dcc-43a1-8a2d-33256ab462d4";
+				PROVISIONING_PROFILE_SPECIFIER = "CSD Developer";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -398,9 +399,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 58C90A3C42F4ED52F4E0BC0C /* Pods-ParseStarterProject-Swift.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = D3QVFELAEF;
+				DEVELOPMENT_TEAM = DNX54GYZPT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -410,8 +410,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ParseStarterProject-Swift";
-				PROVISIONING_PROFILE = "a18fb6bf-cc7e-42fe-973c-ff71c1ce96aa";
-				PROVISIONING_PROFILE_SPECIFIER = development;
+				PROVISIONING_PROFILE = "97e4ab93-6dcc-43a1-8a2d-33256ab462d4";
+				PROVISIONING_PROFILE_SPECIFIER = "CSD Developer";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
