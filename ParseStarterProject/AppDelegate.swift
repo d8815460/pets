@@ -12,6 +12,8 @@ import UserNotifications
 
 import Parse
 import Alamofire
+import Realm
+import RealmSwift
 
 // If you want to use any of the UI components, uncomment this line
 // import ParseUI
@@ -125,6 +127,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpened(withRemoteNotificationPayload: userInfo)
         }
     }
+
+
+//    Realm.asyncOpen(configuration: config) { realm, error in
+//        if let realm = realm {
+//        // Realm successfully opened, with migration applied on background thread
+//        } else if let error = error {
+//        // Handle error that occurred while opening the Realm
+//        }
+//    }
 
     ///////////////////////////////////////////////////////////
     // Uncomment this method if you want to use Push Notifications with Background App Refresh

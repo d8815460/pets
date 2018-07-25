@@ -13,19 +13,13 @@ import SDWebImage
 
 class AdoptionTableViewController: PFQueryTableViewController {
 
-    // MARK: Data
-    
-    override func queryForTable() -> PFQuery<PFObject> {
-        return super.queryForTable().order(byAscending: "updateAt")
-    }
-    
     override init(style: UITableViewStyle, className: String!)
     {
         super.init(style: style, className: className)
         self.loadingViewEnabled = true
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 20
+        self.objectsPerPage = 100
         self.parseClassName = className
     }
     
@@ -36,12 +30,7 @@ class AdoptionTableViewController: PFQueryTableViewController {
         self.parseClassName = "Adoption"
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 20
-    }
-    
-    override func objectsDidLoad(_ error: Error?) {
-        super.objectsDidLoad(error)
-        print("objects = \(String(describing: objects?.count))")
+        self.objectsPerPage = 100
     }
     
     override func viewDidLoad() {
@@ -60,33 +49,55 @@ class AdoptionTableViewController: PFQueryTableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    // MARK: Data
+    
+    override func queryForTable() -> PFQuery<PFObject> {
+        return super.queryForTable().order(byAscending: "updateAt")
+    }
+    
+    override func objectsDidLoad(_ error: Error?) {
+        super.objectsDidLoad(error)
+        print("objects = \(String(describing: objects?.count))")
+    }
+    
     // MARK: TableView
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell? {
-        let cellIdentifier = "cell"
+
+
+        let cellIdentifier = "profileCell"
         
         if (indexPath.row == ((self.objects?.count)! - 1)) {
             // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
             let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
             return cell
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PFTableViewCell
+            var cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
             if cell == nil {
-                cell = PFTableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+                cell = ProfileCell(style: .subtitle, reuseIdentifier: cellIdentifier)
             }
-            
-            cell?.textLabel?.text = object?["animalPlace"] as? String
-            cell?.imageView?.sd_setImage(with: URL(string: object?.object(forKey: "albumFile") as! String), completed: { (image, error, type, url) in
+            cell.serviceNameLabel.text = object?["animalPlace"] as? String
+            cell.userNameLabel.text = object?["animalKind"] as? String
+
+            var sexText = ""
+            if object?["animalSex"] as? String == "M" {
+                sexText = "男孩"
+            } else {
+                sexText = "女孩"
+            }
+            cell.userJobTitle.text = sexText+" "+(object?["animalColour"] as? String)!
+            cell.thumbnailImageView?.sd_setImage(with: URL(string: object?.object(forKey: "albumFile") as! String), completed: { (image, error, type, url) in
                 
             })
-            var subtitle: String
-            if let priority = object?["priority"] as? Int {
-                subtitle = "Priority: \(priority)"
-            } else {
-                subtitle = "No Priority"
-            }
-            cell?.detailTextLabel?.text = subtitle
-            
+//            var subtitle: String
+//            if let priority = object?["priority"] as? Int {
+//                subtitle = "Priority: \(priority)"
+//            } else {
+//                subtitle = "No Priority"
+//            }
+//            cell?.detailTextLabel?.text = subtitle
+
             return cell
         }
         
