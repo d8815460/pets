@@ -12,95 +12,69 @@ import Parse
 import Alamofire
 import RealmSwift
 
-class Adoption: Object {
-    @objc dynamic var albumFile = ""
-    @objc dynamic var albumUpdate = ""
-    @objc dynamic var animalAreaPkid = 0
-    @objc dynamic var animalBacterin = ""
-    @objc dynamic var animalBodytype = ""
-    @objc dynamic var animalCaption = ""
-    @objc dynamic var animalCloseddate = Date()
-    @objc dynamic var animalColour = ""
-    @objc dynamic var animalCreatetime = Date()
-    @objc dynamic var animalFoundplace = ""
-    @objc dynamic var animalId = 0
-    @objc dynamic var animalKind = ""
-    @objc dynamic var animalOpendate = Date()
-    @objc dynamic var animalPlace = ""
-    @objc dynamic var animalRemark = ""
-    @objc dynamic var animalSex = ""
-    @objc dynamic var animalShelterPkid = 0
-    @objc dynamic var animalStatus = ""
-    @objc dynamic var animalSterilization = ""
-    @objc dynamic var animalSubid = ""
-    @objc dynamic var animalTitle = ""
-    @objc dynamic var animalUpdate = Date()
-    @objc dynamic var cDate = Date()
-    @objc dynamic var shelterAddress = ""
-    @objc dynamic var shelterName = ""
-    @objc dynamic var shelterTel = ""
-    @objc dynamic var createdAt = Date()
-    @objc dynamic var updateAt = Date()
-}
-
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-
+        /*
+         * 用來爬官方資料的爬蟲，如果本地資料庫已經有了，就不再更新至Parse Server，減少call API的次數
+         */
         Alamofire.request("http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL").responseJSON { response in
             if response.result.isSuccess {
                 // convert data to dictionary array
                 let result:NSArray = response.value as! NSArray
                 if result.count > 0 {
                     for data in result {
-                        let adoption = PFObject(className: "Adoption")
+                        let adoption = PFObject(className: kPAPAdoptionClassKey)
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "yyyy/MM/dd"
-
-                        adoption["albumFile"] = (data as! Dictionary)["album_file"]
-                        adoption["albumUpdate"]  = (data as! Dictionary)["album_update"]
-                        adoption["animalAreaPkid"]  = (data as! Dictionary)["animal_area_pkid"]
-                        adoption["animalBacterin"]  = (data as! Dictionary)["animal_bacterin"]
-                        adoption["animalBodytype"]  = (data as! Dictionary)["animal_bodytype"]
-                        adoption["animalCaption"]  = (data as! Dictionary)["animal_caption"]
-                        if ((data as! NSDictionary)["animal_closeddate"] == nil || ((data as! NSDictionary)["animal_closeddate"]! as! String) == "") { } else {
-                            let animalCloseddate = dateFormatter.date(from: (data as! NSDictionary)["animal_closeddate"]! as! String)
-                            adoption["animalCloseddate"]  = animalCloseddate
+                        adoption[kPAPAdoptionAlbumFileKey] = (data as! Dictionary)[kServerAdoptionAlbumFileKey]
+                        adoption[kPAPAdoptionAlbumUpdateKey]  = (data as! Dictionary)[kServerAdoptionAlbumUpdateKey]
+                        adoption[kPAPAdoptionAnimalAreaPkidKey]  = (data as! Dictionary)[kServerAdoptionAnimalAreaPkidKey]
+                        adoption[kPAPAdoptionAnimalBacterinKey]  = (data as! Dictionary)[kServerAdoptionAnimalBacterinKey]
+                        adoption[kPAPAdoptionAnimalBodytypeKey]  = (data as! Dictionary)[kServerAdoptionAnimalBodytypeKey]
+                        adoption[kPAPAdoptionAnimalCaptionKey]  = (data as! Dictionary)[kServerAdoptionAnimalCaptionKey]
+                        if ((data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey] == nil ||
+                            ((data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey]! as! String) == "") { } else {
+                            let animalCloseddate = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey]! as! String)
+                            adoption[kPAPAdoptionAnimalCloseddateKey]  = animalCloseddate
                         }
-                        adoption["animalColour"]  = (data as! Dictionary)["animal_colour"]
-                        if ((data as! NSDictionary)["animal_createtime"] == nil || ((data as! NSDictionary)["animal_createtime"]! as! String) == "") { } else {
-                            let animal_createtime = dateFormatter.date(from: (data as! NSDictionary)["animal_createtime"]! as! String)
-                            adoption["animalCreatetime"]  = animal_createtime
+                        adoption[kPAPAdoptionAnimalColourKey]  = (data as! Dictionary)[kServerAdoptionAnimalColourKey]
+                        if ((data as! NSDictionary)[kServerAdoptionAnimalCreatetimeKey] == nil || ((data as! NSDictionary)[kServerAdoptionAnimalCreatetimeKey]! as! String) == "") { } else {
+                            let animal_createtime = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionAnimalCreatetimeKey]! as! String)
+                            adoption[kPAPAdoptionAnimalCreatetimeKey]  = animal_createtime
                         }
-                        adoption["animalFoundplace"]  = (data as! Dictionary)["animal_foundplace"]
-                        adoption["animalId"]  = (data as! Dictionary)["animal_id"]
-                        adoption["animalKind"]  = (data as! Dictionary)["animal_kind"]
-                        if ((data as! NSDictionary)["animal_opendate"] == nil || ((data as! NSDictionary)["animal_opendate"]! as! String) == "") { } else {
-                            let animalOpendate = dateFormatter.date(from: (data as! NSDictionary)["animal_opendate"]! as! String)
-                            adoption["animalOpendate"]  = animalOpendate
+                        adoption[kPAPAdoptionAnimalFoundplaceKey]  = (data as! Dictionary)[kServerAdoptionAnimalFoundplaceKey]
+                        adoption[kPAPAdoptionAnimalIdKey]  = (data as! Dictionary)[kServerAdoptionAnimalIdKey]
+                        adoption[kPAPAdoptionAnimalKindKey]  = (data as! Dictionary)[kServerAdoptionAnimalKindKey]
+                        if ((data as! NSDictionary)[kServerAdoptionAnimalOpendateKey] == nil ||
+                            ((data as! NSDictionary)[kServerAdoptionAnimalOpendateKey]! as! String) == "") { } else {
+                            let animalOpendate = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionAnimalOpendateKey]! as! String)
+                            adoption[kPAPAdoptionAnimalOpendateKey]  = animalOpendate
                         }
-                        adoption["animalPlace"]  = (data as! Dictionary)["animal_place"]
-                        adoption["animalRemark"]  = (data as! Dictionary)["animal_remark"]
-                        adoption["animalSex"]  = (data as! Dictionary)["animal_sex"]
-                        adoption["animalShelterPkid"]  = (data as! Dictionary)["animal_shelter_pkid"]
-                        adoption["animalStatus"]  = (data as! Dictionary)["animal_status"]
-                        adoption["animalSterilization"]  = (data as! Dictionary)["animal_sterilization"]
-                        adoption["animalSubid"]  = (data as! Dictionary)["animal_subid"]
-                        adoption["animalTitle"]  = (data as! Dictionary)["animal_title"]
-                        if ((data as! NSDictionary)["animal_update"] == nil || ((data as! NSDictionary)["animal_update"]! as! String) == "") { } else {
-                            let animalUpdate = dateFormatter.date(from: (data as! NSDictionary)["animal_update"]! as! String)
-                            adoption["animalUpdate"]  = animalUpdate
+                        adoption[kPAPAdoptionAnimalPlaceKey]  = (data as! Dictionary)[kServerAdoptionAnimalPlaceKey]
+                        adoption[kPAPAdoptionAnimalRemarkKey]  = (data as! Dictionary)[kServerAdoptionAnimalRemarkKey]
+                        adoption[kPAPAdoptionAnimalSexKey]  = (data as! Dictionary)[kServerAdoptionAnimalSexKey]
+                        adoption[kPAPAdoptionAnimalShelterPkidKey]  = (data as! Dictionary)[kServerAdoptionAnimalShelterPkidKey]
+                        adoption[kPAPAdoptionAnimalStatusKey]  = (data as! Dictionary)[kServerAdoptionAnimalStatusKey]
+                        adoption[kPAPAdoptionAnimalSterilizationKey]  = (data as! Dictionary)[kServerAdoptionAnimalSterilizationKey]
+                        adoption[kPAPAdoptionAnimalSubidKey]  = (data as! Dictionary)[kServerAdoptionAnimalSubidKey]
+                        adoption[kPAPAdoptionAnimalTitleKey]  = (data as! Dictionary)[kServerAdoptionAnimalTitleKey]
+                        if ((data as! NSDictionary)[kServerAdoptionAnimalUpdateKey] == nil ||
+                            ((data as! NSDictionary)[kServerAdoptionAnimalUpdateKey]! as! String) == "") { } else {
+                            let animalUpdate = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionAnimalUpdateKey]! as! String)
+                            adoption[kPAPAdoptionAnimalUpdateKey]  = animalUpdate
                         }
-                        if ((data as! NSDictionary)["cDate"] == nil || ((data as! NSDictionary)["cDate"]! as! String) == "") { } else {
-                            let cDate = dateFormatter.date(from: (data as! NSDictionary)["cDate"]! as! String)
-                            adoption["cDate"]  = cDate
+                        if ((data as! NSDictionary)[kServerAdoptionCDateKey] == nil ||
+                            ((data as! NSDictionary)[kServerAdoptionCDateKey]! as! String) == "") { } else {
+                            let cDate = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionCDateKey]! as! String)
+                            adoption[kPAPAdoptionCDateKey]  = cDate
                         }
-                        adoption["shelterAddress"]  = (data as! Dictionary)["shelter_address"]
-                        adoption["shelterName"]  = (data as! Dictionary)["shelter_name"]
-                        adoption["shelterTel"]  = (data as! Dictionary)["shelter_tel"]
+                        adoption[kPAPAdoptionShelterAddressKey]  = (data as! Dictionary)[kServerAdoptionShelterAddressKey]
+                        adoption[kPAPAdoptionShelterNameKey]  = (data as! Dictionary)[kServerAdoptionShelterNameKey]
+                        adoption[kPAPAdoptionShelterTelKey]  = (data as! Dictionary)[kServerAdoptionShelterTelKey]
 
                         // 要先判斷資料庫是不是已經有了，有了就不用再上傳更新
                         let realm = try! Realm()
@@ -110,109 +84,23 @@ class ViewController: UIViewController {
                             adoption.saveInBackground(block: { (success, error) in
                                 if (success) {
                                     print("save1")
-                                    myAdoption.albumFile        = adoption["albumFile"] as! String
-                                    myAdoption.albumUpdate      = adoption["albumUpdate"] as! String
-                                    myAdoption.animalAreaPkid   = adoption["animalAreaPkid"] as! Int
-                                    myAdoption.animalBacterin   = adoption["animalBacterin"] as! String
-                                    myAdoption.animalBodytype   = adoption["animalBodytype"] as! String
-                                    myAdoption.animalCaption    = adoption["animalCaption"] as! String
-                                    if (adoption["animalCloseddate"] != nil) {
-                                        myAdoption.animalCloseddate     = adoption["animalCloseddate"] as! Date
-                                    }
-                                    myAdoption.animalColour     = adoption["animalColour"] as! String
-                                    if (adoption["animalCreatetime"] != nil) {
-                                        myAdoption.animalCreatetime     = adoption["animalCreatetime"] as! Date
-                                    }
-                                    myAdoption.animalFoundplace = adoption["animalFoundplace"] as! String
-                                    myAdoption.animalId         = adoption["animalId"] as! Int
-                                    myAdoption.animalKind       = adoption["animalKind"] as! String
-                                    if (adoption["animalOpendate"] != nil) {
-                                        myAdoption.animalOpendate     = adoption["animalOpendate"] as! Date
-                                    }
-                                    myAdoption.animalPlace      = adoption["animalPlace"] as! String
-                                    myAdoption.animalRemark     = adoption["animalRemark"] as! String
-                                    myAdoption.animalSex        = adoption["animalSex"] as! String
-                                    myAdoption.animalShelterPkid = adoption["animalShelterPkid"] as! Int
-                                    myAdoption.animalStatus     = adoption["animalStatus"] as! String
-                                    myAdoption.animalSterilization = adoption["animalSterilization"] as! String
-                                    myAdoption.animalSubid      = adoption["animalSubid"] as! String
-                                    myAdoption.animalTitle      = adoption["animalTitle"] as! String
-                                    if (adoption["animalUpdate"] != nil) {
-                                        myAdoption.animalUpdate     = adoption["animalUpdate"] as! Date
-                                    }
-                                    if (adoption["cDate"] != nil) {
-                                        myAdoption.cDate            = adoption["cDate"] as! Date
-                                    }
-                                    myAdoption.shelterAddress   = adoption["shelterAddress"] as! String
-                                    myAdoption.shelterName      = adoption["shelterName"] as! String
-                                    myAdoption.shelterTel       = adoption["shelterTel"] as! String
-                                    myAdoption.createdAt        = adoption.createdAt!
-                                    myAdoption.updateAt         = adoption.updatedAt!
-                                    // Get the default Realm
-                                    let realm = try! Realm()
-                                    // Persist your data easily
-                                    try! realm.write {
-                                        realm.add(myAdoption)
-                                    }
+                                    self.myAdoptionSaveToRealm(myAdoption: myAdoption, adoption: adoption)
                                 } else {
-                                    print("error")
+                                    print("error1")
                                 }
                             })
                         } else {
-                            let isExists = adoptions.filter("animalId")
+                            let isExists = adoptions.filter(kPAPAdoptionAnimalIdKey)
                             if isExists.count > 0 {
-                                if (adoptions.first?.animalUpdate)! == ((data as! NSDictionary)["animalUpdate"] as! Date)  {
+                                if (adoptions.first?.animalUpdate)! == ((data as! NSDictionary)[kPAPAdoptionAnimalUpdateKey] as! Date)  {
                                     // do nothing...
                                 } else {
                                     adoption.saveInBackground(block: { (success, error) in
                                         if (success) {
                                             print("save2")
-                                            myAdoption.albumFile        = adoption["albumFile"] as! String
-                                            myAdoption.albumUpdate      = adoption["albumUpdate"] as! String
-                                            myAdoption.animalAreaPkid   = adoption["animalAreaPkid"] as! Int
-                                            myAdoption.animalBacterin   = adoption["animalBacterin"] as! String
-                                            myAdoption.animalBodytype   = adoption["animalBodytype"] as! String
-                                            myAdoption.animalCaption    = adoption["animalCaption"] as! String
-                                            if (adoption["animalCloseddate"] != nil) {
-                                                myAdoption.animalCloseddate     = adoption["animalCloseddate"] as! Date
-                                            }
-                                            myAdoption.animalColour     = adoption["animalColour"] as! String
-                                            if (adoption["animalCreatetime"] != nil) {
-                                                myAdoption.animalCreatetime     = adoption["animalCreatetime"] as! Date
-                                            }
-                                            myAdoption.animalFoundplace = adoption["animalFoundplace"] as! String
-                                            myAdoption.animalId         = adoption["animalId"] as! Int
-                                            myAdoption.animalKind       = adoption["animalKind"] as! String
-                                            if (adoption["animalOpendate"] != nil) {
-                                                myAdoption.animalOpendate     = adoption["animalOpendate"] as! Date
-                                            }
-                                            myAdoption.animalPlace      = adoption["animalPlace"] as! String
-                                            myAdoption.animalRemark     = adoption["animalRemark"] as! String
-                                            myAdoption.animalSex        = adoption["animalSex"] as! String
-                                            myAdoption.animalShelterPkid = adoption["animalShelterPkid"] as! Int
-                                            myAdoption.animalStatus     = adoption["animalStatus"] as! String
-                                            myAdoption.animalSterilization = adoption["animalSterilization"] as! String
-                                            myAdoption.animalSubid      = adoption["animalSubid"] as! String
-                                            myAdoption.animalTitle      = adoption["animalTitle"] as! String
-                                            if (adoption["animalUpdate"] != nil) {
-                                                myAdoption.animalUpdate     = adoption["animalUpdate"] as! Date
-                                            }
-                                            if (adoption["cDate"] != nil) {
-                                                myAdoption.cDate            = adoption["cDate"] as! Date
-                                            }
-                                            myAdoption.shelterAddress   = adoption["shelterAddress"] as! String
-                                            myAdoption.shelterName      = adoption["shelterName"] as! String
-                                            myAdoption.shelterTel       = adoption["shelterTel"] as! String
-                                            myAdoption.createdAt        = adoption.createdAt!
-                                            myAdoption.updateAt         = adoption.updatedAt!
-                                            // Get the default Realm
-                                            let realm = try! Realm()
-                                            // Persist your data easily
-                                            try! realm.write {
-                                                realm.add(myAdoption)
-                                            }
+                                            self.myAdoptionSaveToRealm(myAdoption: myAdoption, adoption: adoption)
                                         } else {
-                                            print("error")
+                                            print("error2")
                                         }
                                     })
                                 }
@@ -220,56 +108,12 @@ class ViewController: UIViewController {
                                 adoption.saveInBackground(block: { (success, error) in
                                     if (success) {
                                         print("save3")
-                                        myAdoption.albumFile        = adoption["albumFile"] as! String
-                                        myAdoption.albumUpdate      = adoption["albumUpdate"] as! String
-                                        myAdoption.animalAreaPkid   = adoption["animalAreaPkid"] as! Int
-                                        myAdoption.animalBacterin   = adoption["animalBacterin"] as! String
-                                        myAdoption.animalBodytype   = adoption["animalBodytype"] as! String
-                                        myAdoption.animalCaption    = adoption["animalCaption"] as! String
-                                        if (adoption["animalCloseddate"] != nil) {
-                                            myAdoption.animalCloseddate     = adoption["animalCloseddate"] as! Date
-                                        }
-                                        myAdoption.animalColour     = adoption["animalColour"] as! String
-                                        if (adoption["animalCreatetime"] != nil) {
-                                            myAdoption.animalCreatetime     = adoption["animalCreatetime"] as! Date
-                                        }
-                                        myAdoption.animalFoundplace = adoption["animalFoundplace"] as! String
-                                        myAdoption.animalId         = adoption["animalId"] as! Int
-                                        myAdoption.animalKind       = adoption["animalKind"] as! String
-                                        if (adoption["animalOpendate"] != nil) {
-                                            myAdoption.animalOpendate     = adoption["animalOpendate"] as! Date
-                                        }
-                                        myAdoption.animalPlace      = adoption["animalPlace"] as! String
-                                        myAdoption.animalRemark     = adoption["animalRemark"] as! String
-                                        myAdoption.animalSex        = adoption["animalSex"] as! String
-                                        myAdoption.animalShelterPkid = adoption["animalShelterPkid"] as! Int
-                                        myAdoption.animalStatus     = adoption["animalStatus"] as! String
-                                        myAdoption.animalSterilization = adoption["animalSterilization"] as! String
-                                        myAdoption.animalSubid      = adoption["animalSubid"] as! String
-                                        myAdoption.animalTitle      = adoption["animalTitle"] as! String
-                                        if (adoption["animalUpdate"] != nil) {
-                                            myAdoption.animalUpdate     = adoption["animalUpdate"] as! Date
-                                        }
-                                        if (adoption["cDate"] != nil) {
-                                            myAdoption.cDate            = adoption["cDate"] as! Date
-                                        }
-                                        myAdoption.shelterAddress   = adoption["shelterAddress"] as! String
-                                        myAdoption.shelterName      = adoption["shelterName"] as! String
-                                        myAdoption.shelterTel       = adoption["shelterTel"] as! String
-                                        myAdoption.createdAt        = adoption.createdAt!
-                                        myAdoption.updateAt         = adoption.updatedAt!
-                                        // Get the default Realm
-                                        let realm = try! Realm()
-                                        // Persist your data easily
-                                        try! realm.write {
-                                            realm.add(myAdoption)
-                                        }
+                                        self.myAdoptionSaveToRealm(myAdoption: myAdoption, adoption: adoption)
                                     } else {
-                                        print("error")
+                                        print("error3")
                                     }
                                 })
                             }
-
                         }
                     }
                 }
@@ -277,26 +121,53 @@ class ViewController: UIViewController {
                 print("error: \(String(describing: response.error))")
             }
         }
+    }
 
-        /*
-        let urlString:String = "http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL"
-        var url:NSURL!
-        url = NSURL(string: urlString)
-        let request = NSMutableURLRequest(url: url as URL)
-        request.httpMethod = "GET"
-
-        var response:URLResponse?
-
-        do {
-            let received:NSData? = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: &response) as NSData
-            let datastring = NSString(data: received! as Data, encoding: String.Encoding.utf8.rawValue)
-            print(datastring as Any)
-        } catch let error as NSError {
-            print(error.code)
-            print(error.description)
+    func myAdoptionSaveToRealm(myAdoption:Adoption ,adoption:PFObject) {
+        myAdoption.albumFile        = adoption[kPAPAdoptionAlbumFileKey] as! String
+        myAdoption.albumUpdate      = adoption[kPAPAdoptionAlbumUpdateKey] as! String
+        myAdoption.animalAreaPkid   = adoption[kPAPAdoptionAnimalAreaPkidKey] as! Int
+        myAdoption.animalBacterin   = adoption[kPAPAdoptionAnimalBacterinKey] as! String
+        myAdoption.animalBodytype   = adoption[kPAPAdoptionAnimalBodytypeKey] as! String
+        myAdoption.animalCaption    = adoption[kPAPAdoptionAnimalCaptionKey] as! String
+        if (adoption[kPAPAdoptionAnimalCloseddateKey] != nil) {
+            myAdoption.animalCloseddate     = adoption[kPAPAdoptionAnimalCloseddateKey] as! Date
         }
-        */
-
+        myAdoption.animalColour     = adoption[kPAPAdoptionAnimalColourKey] as! String
+        if (adoption[kPAPAdoptionAnimalCreatetimeKey] != nil) {
+            myAdoption.animalCreatetime     = adoption[kPAPAdoptionAnimalCreatetimeKey] as! Date
+        }
+        myAdoption.animalFoundplace = adoption[kPAPAdoptionAnimalFoundplaceKey] as! String
+        myAdoption.animalId         = adoption[kPAPAdoptionAnimalIdKey] as! Int
+        myAdoption.animalKind       = adoption[kPAPAdoptionAnimalKindKey] as! String
+        if (adoption[kPAPAdoptionAnimalOpendateKey] != nil) {
+            myAdoption.animalOpendate     = adoption[kPAPAdoptionAnimalOpendateKey] as! Date
+        }
+        myAdoption.animalPlace      = adoption[kPAPAdoptionAnimalPlaceKey] as! String
+        myAdoption.animalRemark     = adoption[kPAPAdoptionAnimalRemarkKey] as! String
+        myAdoption.animalSex        = adoption[kPAPAdoptionAnimalSexKey] as! String
+        myAdoption.animalShelterPkid = adoption[kPAPAdoptionAnimalShelterPkidKey] as! Int
+        myAdoption.animalStatus     = adoption[kPAPAdoptionAnimalStatusKey] as! String
+        myAdoption.animalSterilization = adoption[kPAPAdoptionAnimalSterilizationKey] as! String
+        myAdoption.animalSubid      = adoption[kPAPAdoptionAnimalSubidKey] as! String
+        myAdoption.animalTitle      = adoption[kPAPAdoptionAnimalTitleKey] as! String
+        if (adoption[kPAPAdoptionAnimalUpdateKey] != nil) {
+            myAdoption.animalUpdate     = adoption[kPAPAdoptionAnimalUpdateKey] as! Date
+        }
+        if (adoption[kPAPAdoptionCDateKey] != nil) {
+            myAdoption.cDate            = adoption[kPAPAdoptionCDateKey] as! Date
+        }
+        myAdoption.shelterAddress   = adoption[kPAPAdoptionShelterAddressKey] as! String
+        myAdoption.shelterName      = adoption[kPAPAdoptionShelterNameKey] as! String
+        myAdoption.shelterTel       = adoption[kPAPAdoptionShelterTelKey] as! String
+        myAdoption.createdAt        = adoption.createdAt!
+        myAdoption.updateAt         = adoption.updatedAt!
+        // Get the default Realm
+        let realm = try! Realm()
+        // Persist your data easily
+        try! realm.write {
+            realm.add(myAdoption)
+        }
     }
 
     override func didReceiveMemoryWarning() {

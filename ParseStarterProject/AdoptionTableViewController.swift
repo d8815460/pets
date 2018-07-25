@@ -74,9 +74,6 @@ class AdoptionTableViewController: PFQueryTableViewController {
             return cell
         } else {
             var cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
-            if cell == nil {
-                cell = ProfileCell(style: .subtitle, reuseIdentifier: cellIdentifier)
-            }
             cell.serviceNameLabel.text = object?["animalPlace"] as? String
             cell.userNameLabel.text = object?["animalKind"] as? String
 
