@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4759C5082105E14000413872 /* AdoptionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4759C5072105E14000413872 /* AdoptionTableViewController.swift */; };
+		475BF7E7210C73CF00DCC746 /* PetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */; };
 		477CA5512108773B005603C3 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477CA5502108773B005603C3 /* ProfileCell.swift */; };
 		477CA55421088360005603C3 /* PAPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477CA55321088360005603C3 /* PAPConstants.swift */; };
 		5922B6CB435B4134172EDC6C /* Pods_ParseStarterProject_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD054BFBFAB0C202FE38F7 /* Pods_ParseStarterProject_Swift.framework */; };
@@ -28,6 +29,7 @@
 		0ADD054BFBFAB0C202FE38F7 /* Pods_ParseStarterProject_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParseStarterProject_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF9A144505B5C7827ACB327 /* Pods-ParseStarterProject-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStarterProject-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStarterProject-Swift/Pods-ParseStarterProject-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4759C5072105E14000413872 /* AdoptionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdoptionTableViewController.swift; sourceTree = "<group>"; };
+		475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsTableViewController.swift; sourceTree = "<group>"; };
 		477CA5502108773B005603C3 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		477CA55321088360005603C3 /* PAPConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAPConstants.swift; sourceTree = "<group>"; };
 		58C90A3C42F4ED52F4E0BC0C /* Pods-ParseStarterProject-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStarterProject-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStarterProject-Swift/Pods-ParseStarterProject-Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				477CA552210882D3005603C3 /* Unity */,
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
 				4759C5072105E14000413872 /* AdoptionTableViewController.swift */,
+				475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */,
 				477CA5502108773B005603C3 /* ProfileCell.swift */,
 				81BA814C1A49DA1800E65899 /* ViewController.swift */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
@@ -277,6 +280,7 @@
 				477CA55421088360005603C3 /* PAPConstants.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 				4759C5082105E14000413872 /* AdoptionTableViewController.swift in Sources */,
+				475BF7E7210C73CF00DCC746 /* PetsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
