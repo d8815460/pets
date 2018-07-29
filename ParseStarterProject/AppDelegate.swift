@@ -196,7 +196,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let strBase64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
 
         let photodic = ["image":strBase64]
-        Alamofire.request("https://localhost:8888/post", method: .post)
+        let todosEndpoint: String = "https://localhost:8888/post"
+        Alamofire.request(todosEndpoint, method: .post, parameters: photodic,
+                          encoding: JSONEncoding.default)
+            .responseJSON { response in
+                guard response.result.error == nil else {
+                    // got an error in getting the data, need to handle it
+                    print("error calling POST on /todos/1")
+                    print(response.result.error!)
+                    return
+                }
+                // make sure we got some JSON since that's what we expect
+                guard let json = response.result.value as? [String: Any] else {
+                    print("didn't get todo object as JSON from API")
+                    print("Error: \(String(describing: response.result.error))")
+                    return
+                }
+                // get and print the title
+                guard let todoTitle = json["title"] as? String else {
+                    print("Could not get todo title from JSON")
+                    return
+                }
+                print("The title is: " + todoTitle)
+        }
 
         let photoObject = PFObject(className: "Pets")
         let imageFile = PFFile(name: "image.png", data: imageData!)
