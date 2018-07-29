@@ -64,41 +64,17 @@ class PetsTableViewController: PFQueryTableViewController {
 
         let cellIdentifier = "profileCell"
 
-        if (indexPath.row == ((self.objects?.count)! - 1)) {
+        if (indexPath.row == ((self.objects?.count)! - 1) && (self.objects?.count)! > 99) {
             // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
             let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
             return cell
         } else {
             var cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
-//            cell.serviceNameLabel.text = object?["animalPlace"] as? String
-//            cell.userNameLabel.text = object?["animalKind"] as? String
-
-//            var sexText = ""
-//            if object?["animalSex"] as? String == "M" {
-//                sexText = "男孩"
-//            } else {
-//                sexText = "女孩"
-//            }
-//            cell.userJobTitle.text = sexText+" "+(object?["animalColour"] as? String)!
-//            cell.thumbnailImageView?.sd_setImage(with: URL(string: object?.object(forKey: "albumFile") as! String), completed: { (image, error, type, url) in
-//
-//            })
 
             let imageFile = object?.object(forKey: "imageFile") as! PFFile
             imageFile.getDataInBackground { (imageData, error) in
-                let strBase64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
-                print("image:"+strBase64!.trimmingCharacters(in: .whitespacesAndNewlines) as Any)
                 cell.thumbnailImageView.image = UIImage(data: imageData!)
-
             }
-
-            //            var subtitle: String
-            //            if let priority = object?["priority"] as? Int {
-            //                subtitle = "Priority: \(priority)"
-            //            } else {
-            //                subtitle = "No Priority"
-            //            }
-            //            cell?.detailTextLabel?.text = subtitle
 
             return cell
         }

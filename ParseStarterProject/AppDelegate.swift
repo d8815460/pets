@@ -14,12 +14,13 @@ import Parse
 import Alamofire
 import Realm
 import RealmSwift
+import ESTabBarController_swift
 
 // If you want to use any of the UI components, uncomment this line
 // import ParseUI
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var window: UIWindow?
 
@@ -77,7 +78,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PFAnalytics.trackAppOpened(launchOptions: launchOptions)
             }
         }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
+        let tabBarController = storyboard.instantiateViewController(withIdentifier: "tab") as! ESTabBarController
+        tabBarController.delegate = self
+        tabBarController.title = "Irregularity"
+        tabBarController.tabBar.shadowImage = UIImage(named: "transparent")
+        tabBarController.tabBar.backgroundImage = UIImage(named: "background_dark")
+        tabBarController.shouldHijackHandler = {
+            tabbarController, viewController, index in
+            if index == 2 {
+                return true
+            }
+            return false
+        }
+        tabBarController.didHijackHandler = {
+            [weak tabBarController] tabbarController, viewController, index in
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+                let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default, handler: { (action) in
+                    let imagePicker =  UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .camera
+                    self.window?.rootViewController?.present(imagePicker, animated: true, completion: {
+
+                    })
+                })
+                alertController.addAction(takePhotoAction)
+                let selectFromAlbumAction = UIAlertAction(title: "Select from album", style: .default, handler: { (action) in
+                    let imagePicker =  UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .photoLibrary
+                    self.window?.rootViewController?.present(imagePicker, animated: true, completion: {
+
+                    })
+                })
+                alertController.addAction(selectFromAlbumAction)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
+                tabBarController?.present(alertController, animated: true, completion: nil)
+            }
+        }
+
+        let v1 = storyboard.instantiateViewController(withIdentifier: "ai") as! UINavigationController
+        let v2 = storyboard.instantiateViewController(withIdentifier: "pet") as! UINavigationController
+        let v3 = ExampleViewController()
+        let v4 = ExampleViewController()
+        let v5 = ExampleViewController()
+
+        v1.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Home", image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))
+        v2.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Leader", image: UIImage(named: "find"), selectedImage: UIImage(named: "find_1"))
+        v3.tabBarItem = ESTabBarItem.init(ExampleIrregularityContentView(), title: nil, image: UIImage(named: "photo_verybig"), selectedImage: UIImage(named: "photo_verybig"))
+        v4.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Favor", image: UIImage(named: "favor"), selectedImage: UIImage(named: "favor_1"))
+        v5.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Setting", image: UIImage(named: "me"), selectedImage: UIImage(named: "me_1"))
+        tabBarController.tabBar.barTintColor = UIColor.init(red: 10/255.0, green: 66/255.0, blue: 91/255.0, alpha: 1.0)
+        tabBarController.viewControllers = [v1, v2, v3, v4, v5]
+        self.window?.rootViewController = tabBarController
         if #available(iOS 10.0, *) {
             // iOS 10+
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
@@ -128,14 +185,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    //--------------------------------------
+    // MARK: Image Picker Delegate
+    //--------------------------------------
 
-//    Realm.asyncOpen(configuration: config) { realm, error in
-//        if let realm = realm {
-//        // Realm successfully opened, with migration applied on background thread
-//        } else if let error = error {
-//        // Handle error that occurred while opening the Realm
-//        }
-//    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        let imageData = UIImagePNGRepresentation(image!)
+        let strBase64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+
+
+
+        let photoObject = PFObject(className: "Pets")
+        let imageFile = PFFile(name: "image.png", data: imageData!)
+        photoObject.add(imageFile!, forKey: "imageFile")
+        photoObject.saveEventually { (success, error) in
+            if error == nil {
+                print("success save")
+            } else {
+                print("something error")
+            }
+        }
+    }
 
     ///////////////////////////////////////////////////////////
     // Uncomment this method if you want to use Push Notifications with Background App Refresh

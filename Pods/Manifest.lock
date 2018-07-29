@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (4.7.2)
   - Bolts/Tasks (1.9.0)
+  - ESTabBarController-swift (2.6.2)
   - Parse (1.17.1):
     - Parse/Core (= 1.17.1)
   - Parse/Core (1.17.1):
@@ -19,6 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - ESTabBarController-swift
   - ParseUI
   - RealmSwift
   - SDWebImage (~> 4.0)
@@ -27,6 +29,7 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Bolts
+    - ESTabBarController-swift
     - Parse
     - ParseUI
     - Realm
@@ -36,12 +39,13 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
   Parse: d3edaf8c7c722cb33cb83ba7821d015ae32d362d
   ParseUI: 2b37a0bc692a3e7666cf0c37b5521dfddd74a1af
   Realm: c286caf4dbf346ce24aad49ca76c7ce622d4a082
   RealmSwift: 2a9281e37d6de55f66f76254d49d28aeb1b729e4
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: 0879846a7d2e32f71c4fd434e206145d568bdb12
+PODFILE CHECKSUM: 221695e42b05fc3b369021b8a7486c07f723ad5c
 
 COCOAPODS: 1.5.0

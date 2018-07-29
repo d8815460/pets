@@ -11,4 +11,5 @@ pod 'Alamofire'
 pod 'ParseUI'
 pod 'SDWebImage', '~> 4.0'
 pod 'RealmSwift'
+pod 'ESTabBarController-swift'
 end

@@ -15,7 +15,7 @@
             <objects>
                 <tableViewController id="SNh-JE-k6J" customClass="AdoptionTableViewController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="g2a-c2-cXu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -29,7 +29,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVV-WK-Da1">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="hD7-de-yEl" customClass="PFImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hD7-de-yEl" customClass="PFImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="231"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Vx-BJ-Rn0">
@@ -274,12 +274,12 @@
         <!--Tab Bar Controller-->
         <scene sceneID="AtK-WZ-w06">
             <objects>
-                <tabBarController id="amh-bQ-Bpx" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UZO-Vw-HNC">
+                <tabBarController storyboardIdentifier="tab" useStoryboardIdentifierAsRestorationIdentifier="YES" id="amh-bQ-Bpx" customClass="ESTabBarController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="UZO-Vw-HNC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.25098039220000001" green="0.81960784310000001" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="o2Q-Cw-9Vz" kind="relationship" relationship="viewControllers" id="yaL-wC-gwW"/>
@@ -300,7 +300,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -313,7 +313,7 @@
         <!--認養-->
         <scene sceneID="RL9-ZD-6GE">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="o2Q-Cw-9Vz" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="pet" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="o2Q-Cw-9Vz" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="認養" id="Jwy-Gu-1i2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e1Z-vE-fRt">
@@ -335,7 +335,7 @@
             <objects>
                 <tableViewController id="X42-pO-fFS" customClass="PetsTableViewController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="D1a-p3-rwD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -349,7 +349,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGr-cq-jyg">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile" translatesAutoresizingMaskIntoConstraints="NO" id="nMR-4k-pjp" customClass="PFImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nMR-4k-pjp" customClass="PFImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="231"/>
                                                 </imageView>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7re-OQ-n3h">
@@ -594,7 +594,7 @@
         <!--Item-->
         <scene sceneID="lt4-gs-316">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f1b-pP-Qyi" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ai" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f1b-pP-Qyi" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="hmg-ft-2it"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5pP-lB-c1Y">
@@ -615,6 +615,5 @@
         <image name="Add To Favorites" width="22" height="19"/>
         <image name="AddedFavorites" width="22" height="19"/>
         <image name="icoStarGrey" width="16" height="16"/>
-        <image name="profile" width="375" height="222"/>
     </resources>
 </document>

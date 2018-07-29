@@ -8,113 +8,54 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>0</integer>
 		</dict>
 		<key>Bolts.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
+		</dict>
+		<key>ESTabBarController-swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Parse-Parse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Parse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>ParseUI.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 		<key>Pods-ParseStarterProject-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
 		</dict>
 		<key>Realm.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
 		</dict>
 		<key>RealmSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>7</integer>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>8</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>2AD3EAF1D044CB778F5EB12492193172</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6C7AA329AA8B1470B7B7141747F89BFC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9038BE35F3CF9242777DF57B59EE47E4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A043102078AF575635B96A669B9401FD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A6254ED9760400ABEAD5B59E55E6B335</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A760316124FD796EF09C09479E9F0021</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AAE55EAA457968588411A175F883731B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AB6CE86A03225DFC9EF9296E5A780E01</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>
