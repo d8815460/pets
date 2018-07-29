@@ -195,7 +195,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let imageData = UIImagePNGRepresentation(image!)
         let strBase64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
 
-
+        let photodic = ["image":strBase64]
+        Alamofire.request("https://localhost:8888/post", method: .post)
 
         let photoObject = PFObject(className: "Pets")
         let imageFile = PFFile(name: "image.png", data: imageData!)
