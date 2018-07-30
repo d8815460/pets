@@ -279,11 +279,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.25098039220000001" green="0.81960784310000001" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="o2Q-Cw-9Vz" kind="relationship" relationship="viewControllers" id="yaL-wC-gwW"/>
                         <segue destination="f1b-pP-Qyi" kind="relationship" relationship="viewControllers" id="Y99-cx-bwP"/>
+                        <segue destination="o2Q-Cw-9Vz" kind="relationship" relationship="viewControllers" id="yaL-wC-gwW"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="XEq-li-dvL"/>
                     </connections>
                 </tabBarController>
@@ -591,11 +591,11 @@
             </objects>
             <point key="canvasLocation" x="488.80000000000001" y="292.80359820089956"/>
         </scene>
-        <!--Item-->
+        <!--SnapCat-->
         <scene sceneID="lt4-gs-316">
             <objects>
                 <navigationController storyboardIdentifier="ai" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f1b-pP-Qyi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="hmg-ft-2it"/>
+                    <tabBarItem key="tabBarItem" title="SnapCat" id="hmg-ft-2it"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5pP-lB-c1Y">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

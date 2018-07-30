@@ -12,6 +12,15 @@ import Parse
 import Alamofire
 import RealmSwift
 
+func content(_ path:String)->String?{
+    do {
+        let content = try String(contentsOfFile:path, encoding:String.Encoding.utf8) as String//encoding: NSUTF8StringEncoding
+        return content
+    } catch {
+        return nil
+    }
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -20,7 +29,71 @@ class ViewController: UIViewController {
 
         /*
          * 用來爬官方資料的爬蟲，如果本地資料庫已經有了，就不再更新至Parse Server，減少call API的次數
+         *
          */
+//        self.queryFromAdoption()
+
+
+        /*
+         * 將爬蟲爬回來的照片及影片，上傳至Parse Server.
+         */
+//        self.saveInstagramPhotoAndVideo()
+
+    }
+
+    func saveInstagramPhotoAndVideo() {
+        let fileName = "test"
+        let fileType = "bundle"
+        if var path = Bundle.main.path(forResource: fileName, ofType:fileType) {
+            // use path
+            path = path + "/pets"
+            let postUser = PFUser(withoutDataWithObjectId: "0QPB4j01ZG")
+            do{
+                let fileList = try FileManager.default.contentsOfDirectory(atPath: path)
+
+                for file in fileList{
+                    let fileType = file.substring(from: file.index(file.endIndex, offsetBy: -3))
+                    let userPhoto = PFObject(className:"Pets")
+                    let fileName = "\(path)/\(file)"
+                    if fileType == "jpg" {
+                        let image = UIImage(named: fileName)
+                        let imageData = UIImagePNGRepresentation(image!)
+                        let imageFile = PFFile(name:file, data:imageData!)
+                        userPhoto["imageFile"] = imageFile
+                        userPhoto["fileName"] = file
+                        userPhoto["type"] = fileType
+                        userPhoto["user"] = postUser
+                        userPhoto.saveInBackground { (success, error) in
+                            if success {
+                                print("save success")
+                            } else {
+                                print("save error")
+                            }
+                        }
+
+                    } else {
+                        let fileData = try PFFile(name: file, contentsAtPath: fileName)
+                        userPhoto["videoFile"] = fileData
+                        userPhoto["fileName"] = file
+                        userPhoto["type"] = fileType
+                        userPhoto["user"] = postUser
+                        userPhoto.saveInBackground { (success, error) in
+                            if success {
+                                print("save success")
+                            } else {
+                                print("save error")
+                            }
+                        }
+                    }
+                }
+            }
+            catch{
+                print("Cannot list directory")
+            }
+        }
+    }
+
+    func queryFromAdoption() {
         Alamofire.request("http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL").responseJSON { response in
             if response.result.isSuccess {
                 // convert data to dictionary array

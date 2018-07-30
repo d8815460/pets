@@ -19,7 +19,7 @@ class AdoptionTableViewController: PFQueryTableViewController {
         self.loadingViewEnabled = true
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 100
+        self.objectsPerPage = 50
         self.parseClassName = className
     }
     
@@ -30,7 +30,7 @@ class AdoptionTableViewController: PFQueryTableViewController {
         self.parseClassName = "Adoption"
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 100
+        self.objectsPerPage = 50
     }
     
     override func viewDidLoad() {

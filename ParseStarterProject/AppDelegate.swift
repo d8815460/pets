@@ -78,63 +78,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
                 PFAnalytics.trackAppOpened(launchOptions: launchOptions)
             }
         }
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-        let tabBarController = storyboard.instantiateViewController(withIdentifier: "tab") as! ESTabBarController
-        tabBarController.delegate = self
-        tabBarController.title = "Irregularity"
-        tabBarController.tabBar.shadowImage = UIImage(named: "transparent")
-        tabBarController.tabBar.backgroundImage = UIImage(named: "background_dark")
-        tabBarController.shouldHijackHandler = {
-            tabbarController, viewController, index in
-            if index == 2 {
-                return true
-            }
-            return false
-        }
-        tabBarController.didHijackHandler = {
-            [weak tabBarController] tabbarController, viewController, index in
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                let alertController = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
-                let takePhotoAction = UIAlertAction(title: "Take a photo", style: .default, handler: { (action) in
-                    let imagePicker =  UIImagePickerController()
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .camera
-                    self.window?.rootViewController?.present(imagePicker, animated: true, completion: {
-
-                    })
-                })
-                alertController.addAction(takePhotoAction)
-                let selectFromAlbumAction = UIAlertAction(title: "Select from album", style: .default, handler: { (action) in
-                    let imagePicker =  UIImagePickerController()
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .photoLibrary
-                    self.window?.rootViewController?.present(imagePicker, animated: true, completion: {
-
-                    })
-                })
-                alertController.addAction(selectFromAlbumAction)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                alertController.addAction(cancelAction)
-                tabBarController?.present(alertController, animated: true, completion: nil)
-            }
-        }
-
-        let v1 = storyboard.instantiateViewController(withIdentifier: "ai") as! UINavigationController
-        let v2 = storyboard.instantiateViewController(withIdentifier: "pet") as! UINavigationController
-        let v3 = ExampleViewController()
-        let v4 = ExampleViewController()
-        let v5 = ExampleViewController()
-
-        v1.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Home", image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))
-        v2.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Leader", image: UIImage(named: "find"), selectedImage: UIImage(named: "find_1"))
-        v3.tabBarItem = ESTabBarItem.init(ExampleIrregularityContentView(), title: nil, image: UIImage(named: "photo_verybig"), selectedImage: UIImage(named: "photo_verybig"))
-        v4.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Favor", image: UIImage(named: "favor"), selectedImage: UIImage(named: "favor_1"))
-        v5.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: "Setting", image: UIImage(named: "me"), selectedImage: UIImage(named: "me_1"))
-        tabBarController.tabBar.barTintColor = UIColor.init(red: 10/255.0, green: 66/255.0, blue: 91/255.0, alpha: 1.0)
-        tabBarController.viewControllers = [v1, v2, v3, v4, v5]
-        self.window?.rootViewController = tabBarController
         if #available(iOS 10.0, *) {
             // iOS 10+
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
@@ -196,25 +139,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let strBase64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
 
         let photodic = ["image":strBase64]
-        let todosEndpoint: String = "https://localhost:8888/post"
+        let todosEndpoint: String = "http://localhost:8888/post"
         Alamofire.request(todosEndpoint, method: .post, parameters: photodic,
                           encoding: JSONEncoding.default)
             .responseJSON { response in
                 guard response.result.error == nil else {
                     // got an error in getting the data, need to handle it
-                    print("error calling POST on /todos/1")
+                    print("error calling POST on /post/")
                     print(response.result.error!)
                     return
                 }
                 // make sure we got some JSON since that's what we expect
                 guard let json = response.result.value as? [String: Any] else {
-                    print("didn't get todo object as JSON from API")
+                    print("didn't get object as JSON from API")
                     print("Error: \(String(describing: response.result.error))")
                     return
                 }
                 // get and print the title
                 guard let todoTitle = json["title"] as? String else {
-                    print("Could not get todo title from JSON")
+                    print("Could not get title from JSON")
                     return
                 }
                 print("The title is: " + todoTitle)
