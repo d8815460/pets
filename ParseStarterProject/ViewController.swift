@@ -47,42 +47,31 @@ class ViewController: UIViewController {
         if var path = Bundle.main.path(forResource: fileName, ofType:fileType) {
             // use path
             path = path + "/pets"
-            let postUser = PFUser(withoutDataWithObjectId: "0QPB4j01ZG")
+            let postUser = PFUser(withoutDataWithObjectId: "0QPB4j01ZG")  //這邊要依據每次爬蟲爬出來的結果，新建用戶並給予該用戶 objectId
             do{
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: path)
 
                 for file in fileList{
                     let fileType = file.substring(from: file.index(file.endIndex, offsetBy: -3))
-                    let userPhoto = PFObject(className:"Pets")
+                    let userPhoto = PFObject(className:kPAPPetsClassKey)
                     let fileName = "\(path)/\(file)"
                     if fileType == "jpg" {
                         let image = UIImage(named: fileName)
                         let imageData = UIImagePNGRepresentation(image!)
                         let imageFile = PFFile(name:file, data:imageData!)
-                        userPhoto["imageFile"] = imageFile
-                        userPhoto["fileName"] = file
-                        userPhoto["type"] = fileType
-                        userPhoto["user"] = postUser
-                        userPhoto.saveInBackground { (success, error) in
-                            if success {
-                                print("save success")
-                            } else {
-                                print("save error")
-                            }
-                        }
-
+                        userPhoto[kPAPPetsImageFileKey] = imageFile
                     } else {
                         let fileData = try PFFile(name: file, contentsAtPath: fileName)
-                        userPhoto["videoFile"] = fileData
-                        userPhoto["fileName"] = file
-                        userPhoto["type"] = fileType
-                        userPhoto["user"] = postUser
-                        userPhoto.saveInBackground { (success, error) in
-                            if success {
-                                print("save success")
-                            } else {
-                                print("save error")
-                            }
+                        userPhoto[kPAPPetsVideoFileKey] = fileData
+                    }
+                    userPhoto[kPAPPetsFileNameKey]  = file
+                    userPhoto[kPAPPetsTypeKey]      = fileType
+                    userPhoto[kPAPPetsUserKey]      = postUser
+                    userPhoto.saveInBackground { (success, error) in
+                        if success {
+                            print("save success")
+                        } else {
+                            print("save error")
                         }
                     }
                 }
