@@ -20,7 +20,7 @@ class PetsTableViewController: PFQueryTableViewController {
         self.loadingViewEnabled = true
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 30
+        self.objectsPerPage = kPAPPetsLoadObjectsPerPage
         self.parseClassName = className
     }
 
@@ -31,7 +31,7 @@ class PetsTableViewController: PFQueryTableViewController {
         self.parseClassName = "Pets"
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 30
+        self.objectsPerPage = kPAPPetsLoadObjectsPerPage
     }
 
     override func viewDidLoad() {
@@ -55,6 +55,7 @@ class PetsTableViewController: PFQueryTableViewController {
             query.cachePolicy = PFCachePolicy.cacheThenNetwork
         }
         query.order(byDescending: "updatedAt")
+//        query.order(byAscending: "updatedAt")
         return query
     }
 
@@ -70,7 +71,7 @@ class PetsTableViewController: PFQueryTableViewController {
 
         let cellIdentifier = "profileCell"
 
-        if (indexPath.row == ((self.objects?.count)! - 1) && (self.objects?.count)! > 99) {
+        if (indexPath.row == ((self.objects?.count)! - 1)) && ((self.objects?.count)! > Int(kPAPPetsLoadObjectsPerPage) - 1) {
             // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
             let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
             return cell
@@ -79,8 +80,8 @@ class PetsTableViewController: PFQueryTableViewController {
             if object?.object(forKey: kPAPPetsTypeKey) as! String == "jpg" {
                 cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
                 let imageFile = object?.object(forKey: kPAPPetsImageFileKey) as! PFFile
-                imageFile.getDataInBackground { (imageData, error) in
-                    (cell as! ProfileCell).thumbnailImageView.image = UIImage(data: imageData!)
+                (cell as! ProfileCell).thumbnailImageView.sd_setImage(with: URL(string: imageFile.url!)) { (image, error, type, url) in
+
                 }
             } else if object?.object(forKey: kPAPPetsTypeKey) as! String == "mp4" {
                 cell = self.tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoCellTableViewCell
@@ -110,7 +111,6 @@ class PetsTableViewController: PFQueryTableViewController {
     // MARK:- UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == ( self.objects!.count - 1 ) {
             self.loadNextPage()
         }

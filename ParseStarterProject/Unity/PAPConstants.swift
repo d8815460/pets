@@ -8,6 +8,9 @@
 
 import UIKit
 import RealmSwift
+
+let kPAPPetsLoadObjectsPerPage:UInt = 30
+
 // MARK: - Adoption Object
 class Adoption: Object {
     @objc dynamic var albumFile = ""
