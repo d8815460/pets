@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         /*
          * 將爬蟲爬回來的照片及影片，上傳至Parse Server.
          */
-//        self.saveInstagramPhotoAndVideo()
+        self.saveInstagramPhotoAndVideo()
 
     }
 
@@ -46,8 +46,8 @@ class ViewController: UIViewController {
         let fileType = "bundle"
         if var path = Bundle.main.path(forResource: fileName, ofType:fileType) {
             // use path
-            path = path + "/pets"
-            let postUser = PFUser(withoutDataWithObjectId: "0QPB4j01ZG")  //這邊要依據每次爬蟲爬出來的結果，新建用戶並給予該用戶 objectId
+            path = path + "/lovelycatonline"
+            let postUser = PFUser(withoutDataWithObjectId: "0cPtDCVYGY")  //這邊要依據每次爬蟲爬出來的結果，新建用戶並給予該用戶 objectId
             do{
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: path)
 

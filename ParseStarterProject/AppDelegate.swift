@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
             // Enable storing and querying data from Local Datastore.
             // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
-            $0.isLocalDatastoreEnabled = true
+            $0.isLocalDatastoreEnabled = false
         }
         Parse.initialize(with: configuration)
 

@@ -274,7 +274,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="AtK-WZ-w06">
             <objects>
-                <tabBarController storyboardIdentifier="tab" useStoryboardIdentifierAsRestorationIdentifier="YES" id="amh-bQ-Bpx" customClass="ESTabBarController" customModule="ParseStarterProject_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tab" useStoryboardIdentifierAsRestorationIdentifier="YES" id="amh-bQ-Bpx" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="UZO-Vw-HNC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -339,8 +339,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="videoCell" rowHeight="290" id="Vt9-lt-U11" customClass="VideoCellTableViewCell" customModule="ParseStarterProject_Swift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="290"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vt9-lt-U11" id="b29-nX-cpr">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="289.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zlv-zx-scl">
+                                            <rect key="frame" x="16" y="11" width="343" height="196.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="343" id="bz2-q0-jq7"/>
+                                                <constraint firstAttribute="height" constant="196.5" id="vEJ-gO-bf9"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some dummy text and labels, or buttons can go down with some other view" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzw-nb-lMe">
+                                            <rect key="frame" x="23" y="218" width="329" height="61"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="61" id="6Sp-Lv-Na2"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pzw-nb-lMe" firstAttribute="leading" secondItem="b29-nX-cpr" secondAttribute="leadingMargin" constant="7" id="5ac-JV-vbx"/>
+                                        <constraint firstItem="pzw-nb-lMe" firstAttribute="top" secondItem="Zlv-zx-scl" secondAttribute="bottom" constant="10.5" id="EZL-4g-Rv2"/>
+                                        <constraint firstItem="Zlv-zx-scl" firstAttribute="top" secondItem="b29-nX-cpr" secondAttribute="topMargin" id="KKp-NB-Ifx"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Zlv-zx-scl" secondAttribute="trailing" id="ajd-Md-KUT"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="pzw-nb-lMe" secondAttribute="bottom" id="gDi-q8-ZNm"/>
+                                        <constraint firstItem="Zlv-zx-scl" firstAttribute="leading" secondItem="b29-nX-cpr" secondAttribute="leadingMargin" id="pOM-v4-jz6"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="pzw-nb-lMe" secondAttribute="trailing" constant="7" id="wiC-a8-UUB"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dummyLabel" destination="pzw-nb-lMe" id="USr-fv-R5L"/>
+                                    <outlet property="videoPlayerSuperView" destination="Zlv-zx-scl" id="ab0-P7-QHY"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="profileCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="profileCell" rowHeight="277" id="SAJ-1j-jAo" customClass="ProfileCell" customModule="ParseStarterProject_Swift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="277"/>
+                                <rect key="frame" x="0.0" y="318" width="375" height="277"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SAJ-1j-jAo" id="IQi-X6-oWC">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="276.5"/>
@@ -558,7 +598,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loadMore" id="rfn-4p-aeO" customClass="PFTableViewCell">
-                                <rect key="frame" x="0.0" y="305" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="595" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rfn-4p-aeO" id="26N-vW-Gf0">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

@@ -10,6 +10,7 @@ import UIKit
 import Parse
 import ParseUI
 import SDWebImage
+import AVFoundation
 
 class PetsTableViewController: PFQueryTableViewController {
 
@@ -19,7 +20,7 @@ class PetsTableViewController: PFQueryTableViewController {
         self.loadingViewEnabled = true
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 100
+        self.objectsPerPage = 30
         self.parseClassName = className
     }
 
@@ -30,7 +31,7 @@ class PetsTableViewController: PFQueryTableViewController {
         self.parseClassName = "Pets"
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
-        self.objectsPerPage = 100
+        self.objectsPerPage = 30
     }
 
     override func viewDidLoad() {
@@ -49,7 +50,12 @@ class PetsTableViewController: PFQueryTableViewController {
     }
 
     override func queryForTable() -> PFQuery<PFObject> {
-        return super.queryForTable().order(byAscending: "updateAt")
+        let query:PFQuery<PFObject> = PFQuery(className: kPAPPetsClassKey)
+        if objects?.count == 0 {
+            query.cachePolicy = PFCachePolicy.cacheThenNetwork
+        }
+        query.order(byDescending: "updatedAt")
+        return query
     }
 
     override func objectsDidLoad(_ error: Error?) {
@@ -69,14 +75,22 @@ class PetsTableViewController: PFQueryTableViewController {
             let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
             return cell
         } else {
-            var cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
-
-            let imageFile = object?.object(forKey: "imageFile") as! PFFile
-            imageFile.getDataInBackground { (imageData, error) in
-                cell.thumbnailImageView.image = UIImage(data: imageData!)
+            var cell:PFTableViewCell?
+            if object?.object(forKey: kPAPPetsTypeKey) as! String == "jpg" {
+                cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
+                let imageFile = object?.object(forKey: kPAPPetsImageFileKey) as! PFFile
+                imageFile.getDataInBackground { (imageData, error) in
+                    (cell as! ProfileCell).thumbnailImageView.image = UIImage(data: imageData!)
+                }
+            } else if object?.object(forKey: kPAPPetsTypeKey) as! String == "mp4" {
+                cell = self.tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoCellTableViewCell
+                let videofile = object?.object(forKey: kPAPPetsVideoFileKey) as! PFFile
+                (cell as! VideoCellTableViewCell).videoPlayerItem =  AVPlayerItem.init(url: URL(string: videofile.url!)!)
+                self.playVideoOnTheCell(cell: (cell as! VideoCellTableViewCell), indexPath: indexPath)
             }
 
-            return cell
+
+            return (cell as! PFTableViewCell)
         }
 
     }
@@ -105,6 +119,15 @@ class PetsTableViewController: PFQueryTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.objects!.count
     }
+
+    func playVideoOnTheCell(cell : VideoCellTableViewCell, indexPath : IndexPath){
+        cell.startPlayback()
+    }
+
+    func stopPlayBack(cell : VideoCellTableViewCell, indexPath : IndexPath){
+        cell.stopPlayback()
+    }
+
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
