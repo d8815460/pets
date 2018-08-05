@@ -35,12 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
         let configuration = ParseClientConfiguration {
             // Add your Parse applicationId:
-            $0.applicationId = "uaWmegNxLPOyxUPd9CJ8LE1JhsUzY397jTrdPsP5"
+            $0.applicationId = "371p9Z6cG2StspkHU5P1kd8jRRKhYPadBiEaTsdl"
             // Uncomment and add your clientKey (it's not required if you are using Parse Server):
-            $0.clientKey = "haWnX2ytk17WYCc371wLpoPInz45jXs9rT3dbIPP"
+            $0.clientKey = "EEVYOVAiELAtFIAVCtE4M1jdK6RTGRkcaaPsXYhl"
 
             // Uncomment the following line and change to your Parse Server address;
-            $0.server = "https://pg-app-r64i9odpwyu4tcdv4rzf0cv5tp1yyw.scalabl.cloud/1/"
+            $0.server = "https://pg-app-gclle1492tx3zdcg7wll5yv5jr7jde.scalabl.cloud/1/"
 
             // Enable storing and querying data from Local Datastore.
             // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
@@ -133,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     //--------------------------------------
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        /*
         picker.dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         let imageData = UIImagePNGRepresentation(image!)
@@ -173,6 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
                 print("something error")
             }
         }
+        */
     }
 
     ///////////////////////////////////////////////////////////

@@ -53,7 +53,11 @@ class AdoptionTableViewController: PFQueryTableViewController {
     // MARK: Data
     
     override func queryForTable() -> PFQuery<PFObject> {
-        return super.queryForTable().order(byAscending: "updateAt")
+        let query:PFQuery<PFObject> = PFQuery(className: kPAPAdoptionClassKey)
+        query.whereKeyExists(kPAPAdoptionAlbumFileKey)
+        query.whereKey(kPAPAdoptionAlbumFileKey, notEqualTo: "")
+        query.order(byAscending: "updatedAt")
+        return query
     }
     
     override func objectsDidLoad(_ error: Error?) {
@@ -66,16 +70,17 @@ class AdoptionTableViewController: PFQueryTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell? {
 
 
-        let cellIdentifier = "profileCell"
+        let cellIdentifier = "postCell"
         
         if (indexPath.row == ((self.objects?.count)! - 1)) {
             // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
             let cell = self.tableView(tableView, cellForNextPageAt: indexPath)
             return cell
         } else {
-            var cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
-            cell.serviceNameLabel.text = object?["animalPlace"] as? String
-            cell.userNameLabel.text = object?["animalKind"] as? String
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! postCell
+            cell.usernameBtn.setTitle(object?["animalPlace"] as? String, for: .normal)
+//            cell.serviceNameLabel.text = object?["animalPlace"] as? String
+//            cell.userNameLabel.text = object?["animalKind"] as? String
 
             var sexText = ""
             if object?["animalSex"] as? String == "M" {
@@ -83,8 +88,8 @@ class AdoptionTableViewController: PFQueryTableViewController {
             } else {
                 sexText = "女孩"
             }
-            cell.userJobTitle.text = sexText+" "+(object?["animalColour"] as? String)!
-            cell.thumbnailImageView?.sd_setImage(with: URL(string: object?.object(forKey: "albumFile") as! String), completed: { (image, error, type, url) in
+//            cell.userJobTitle.text = sexText+" "+(object?["animalColour"] as? String)!
+            cell.picImg?.sd_setImage(with: URL(string: object?.object(forKey: kPAPAdoptionAlbumFileKey) as! String), completed: { (image, error, type, url) in
                 
             })
 //            var subtitle: String

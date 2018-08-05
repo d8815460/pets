@@ -43,6 +43,48 @@ class Adoption: Object {
     @objc dynamic var updateAt = Date()
 }
 
+// User for Realm
+class pUser: Object {
+    @objc dynamic var username = ""
+    @objc dynamic var objectId = ""
+    @objc dynamic var animalAreaPkid = 0
+}
+
+// MARK: - User Class
+// Class key
+let kPAPUserClassKey                            = "_User"
+// Field keys
+let kPAPUserInstagramUrlKey                     = "instagramUrl"
+let kPAPUserPicSmallKey                         = "thumbnailPic"
+let kPAPUserPicMediumKey                        = "mediumPic"
+let kPAPUserAnimalAreaPkidKey                   = "animalAreaPkid"
+
+
+// MARK: - Videos Class
+// Class key
+let kPAPVideosClassKey                      = "Videos"
+// Field keys
+let kPAPVideosVideoIdKey                    = "videoid"
+let kPAPVideosVideoHeightKey                = "video_height"
+let kPAPVideosVideoWidthKey                 = "video_width"
+let kPAPVideosVideoRotationKey              = "video_rotation"
+let kPAPVideosVideoMimetypeKey              = "video_mimetype"
+let kPAPVideosVideoDurationKey              = "video_duration"
+let kPAPVideosTitleKey                      = "title"
+let kPAPVideosDescribeKey                   = "describe"
+let kPAPVideosUploadTimeKey                 = "upload_time"
+let kPAPVideosPubTimeKey                    = "pub_time"
+let kPAPVideosViewsKey                      = "views"
+let kPAPVideosUserIdKey                     = "userid"
+let kPAPVideosCommentStatusKey              = "comment_status"
+let kPAPVideosStatusKey                     = "status"
+let kPAPVideosVideoOggKey                   = "video_ogg"
+let kPAPVideosUserKey                       = "user"
+let kPAPVideosVideoGifKey                   = "video_gif"
+let kPAPVideosVideoThumbnailKey             = "video_thumbnail"
+let kPAPVideosVideoKey                      = "video"
+let kPAPVideosVideoAnimatedWebpKey          = "video_animated_webp"
+let kPAPVideosVideoMp4Key                   = "video_mp4"
 
 // MARK: - Pets Class
 // Class key
@@ -84,6 +126,8 @@ let kPAPAdoptionCDateKey                    = "cDate"
 let kPAPAdoptionShelterAddressKey           = "shelterAddress"
 let kPAPAdoptionShelterNameKey              = "shelterName"
 let kPAPAdoptionShelterTelKey               = "shelterTel"
+let kPAPAdoptionUserKey                     = "user"
+
 // Server keys
 let kServerAdoptionAlbumFileKey             = "album_file"
 let kServerAdoptionAlbumUpdateKey           = "album_update"

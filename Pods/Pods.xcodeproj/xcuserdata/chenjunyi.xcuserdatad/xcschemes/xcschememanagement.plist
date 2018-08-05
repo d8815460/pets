@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Canvas.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ESTabBarController-swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FormatterKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -56,57 +66,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>1B9217DA8CA5D37F995C94435F631C2E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>21D5AF4125A9C6DFCFA87DEEA628FD6E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6C7AA329AA8B1470B7B7141747F89BFC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>753082F15616F2A33F3B132F08EA1C88</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9038BE35F3CF9242777DF57B59EE47E4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A760316124FD796EF09C09479E9F0021</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AAE55EAA457968588411A175F883731B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C41E51685752C3FD4A5A16A1C4AFC5A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FBCF60BF7DF4E9F38B18B2E7CBE87D33</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

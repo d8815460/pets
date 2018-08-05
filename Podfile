@@ -12,4 +12,6 @@ pod 'ParseUI'
 pod 'SDWebImage', '~> 4.0'
 pod 'RealmSwift'
 pod 'ESTabBarController-swift'
+pod 'Canvas'
+pod 'FormatterKit', '~> 1.8'
 end
