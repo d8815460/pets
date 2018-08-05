@@ -10,8 +10,11 @@ import UIKit
 import Parse
 import ParseUI
 import SDWebImage
+import FormatterKit
 
 class AdoptionTableViewController: PFQueryTableViewController {
+
+    var timeFormatter:TTTTimeIntervalFormatter?
 
     override init(style: UITableViewStyle, className: String!)
     {
@@ -35,8 +38,10 @@ class AdoptionTableViewController: PFQueryTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.timeFormatter == nil {
+            self.timeFormatter = TTTTimeIntervalFormatter()
+        }
 
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -56,7 +61,8 @@ class AdoptionTableViewController: PFQueryTableViewController {
         let query:PFQuery<PFObject> = PFQuery(className: kPAPAdoptionClassKey)
         query.whereKeyExists(kPAPAdoptionAlbumFileKey)
         query.whereKey(kPAPAdoptionAlbumFileKey, notEqualTo: "")
-        query.order(byAscending: "updatedAt")
+//        query.order(byAscending: kPAPAdoptionAnimalCreatetimeKey)
+        query.order(byDescending: kPAPAdoptionAnimalCreatetimeKey)
         return query
     }
     
@@ -79,26 +85,13 @@ class AdoptionTableViewController: PFQueryTableViewController {
         } else {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! postCell
             cell.usernameBtn.setTitle(object?["animalPlace"] as? String, for: .normal)
-//            cell.serviceNameLabel.text = object?["animalPlace"] as? String
-//            cell.userNameLabel.text = object?["animalKind"] as? String
-
-            var sexText = ""
-            if object?["animalSex"] as? String == "M" {
-                sexText = "男孩"
+            if object?[kPAPAdoptionAnimalCreatetimeKey] != nil {
+                cell.dateLbl.text = self.timeFormatter?.stringForTimeInterval(from: Date(), to: object?[kPAPAdoptionAnimalCreatetimeKey] as! Date)
             } else {
-                sexText = "女孩"
+                cell.dateLbl.text = "無紀錄"
             }
-//            cell.userJobTitle.text = sexText+" "+(object?["animalColour"] as? String)!
             cell.picImg?.sd_setImage(with: URL(string: object?.object(forKey: kPAPAdoptionAlbumFileKey) as! String), completed: { (image, error, type, url) in
-                
             })
-//            var subtitle: String
-//            if let priority = object?["priority"] as? Int {
-//                subtitle = "Priority: \(priority)"
-//            } else {
-//                subtitle = "No Priority"
-//            }
-//            cell?.detailTextLabel?.text = subtitle
 
             return cell
         }
@@ -120,9 +113,10 @@ class AdoptionTableViewController: PFQueryTableViewController {
     // MARK:- UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == ( self.objects!.count - 1 ) {
             self.loadNextPage()
+        } else {
+            self.performSegue(withIdentifier: "detail", sender: (self.objects?[indexPath.row])!)
         }
     }
     
@@ -175,14 +169,19 @@ class AdoptionTableViewController: PFQueryTableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    */
 
+        if segue.identifier == "detail" {
+            let view = segue.destination as! AdoptionDetailViewController
+            let adoption = sender as! PFObject
+            view.adoptionObject = adoption
+            view.hidesBottomBarWhenPushed = true
+        }
+    }
 }

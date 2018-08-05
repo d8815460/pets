@@ -162,6 +162,7 @@ class ViewController: UIViewController {
                         adoption[kPAPAdoptionAnimalBodytypeKey]  = (data as! NSDictionary)[kServerAdoptionAnimalBodytypeKey]
                         adoption[kPAPAdoptionAnimalCaptionKey]  = (data as! NSDictionary)[kServerAdoptionAnimalCaptionKey]
                         adoption[kPAPAdoptionUserKey] = postUser
+                        adoption[kPAPAdoptionAnimalAgeKey]  = (data as! NSDictionary)[kServerAdoptionAnimalAgeKey]
                         if ((data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey] == nil ||
                             ((data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey]! as! String) == "") { } else {
                             let animalCloseddate = dateFormatter.date(from: (data as! NSDictionary)[kServerAdoptionAnimalCloseddateKey]! as! String)

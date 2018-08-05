@@ -127,6 +127,7 @@ let kPAPAdoptionShelterAddressKey           = "shelterAddress"
 let kPAPAdoptionShelterNameKey              = "shelterName"
 let kPAPAdoptionShelterTelKey               = "shelterTel"
 let kPAPAdoptionUserKey                     = "user"
+let kPAPAdoptionAnimalAgeKey                = "animalAge"
 
 // Server keys
 let kServerAdoptionAlbumFileKey             = "album_file"
@@ -155,3 +156,4 @@ let kServerAdoptionCDateKey                 = "cDate"
 let kServerAdoptionShelterAddressKey        = "shelter_address"
 let kServerAdoptionShelterNameKey           = "shelter_name"
 let kServerAdoptionShelterTelKey            = "shelter_tel"
+let kServerAdoptionAnimalAgeKey             = "animal_age"
