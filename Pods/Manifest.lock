@@ -48,6 +48,7 @@ PODS:
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
+  - Synchronized (4.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - ParseUI
   - RealmSwift
   - SDWebImage (~> 4.0)
+  - Synchronized (~> 4.0.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -70,6 +72,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SDWebImage
+    - Synchronized
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -82,7 +85,8 @@ SPEC CHECKSUMS:
   Realm: c286caf4dbf346ce24aad49ca76c7ce622d4a082
   RealmSwift: 2a9281e37d6de55f66f76254d49d28aeb1b729e4
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
+  Synchronized: bac5463b70c2f5fde23fe4ae588739bf9be095a4
 
-PODFILE CHECKSUM: ef8c7675acf518adfd4fecc45946d10d0f46032d
+PODFILE CHECKSUM: 32067326844ae8784c9ab20ecb0cff20ea88cc50
 
 COCOAPODS: 1.5.0

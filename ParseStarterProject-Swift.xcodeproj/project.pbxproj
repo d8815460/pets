@@ -16,6 +16,8 @@
 		47BCA1FD2116B3DC00A4B879 /* postCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA1FC2116B3DC00A4B879 /* postCell.swift */; };
 		47BCA2012116B58E00A4B879 /* KILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2002116B58E00A4B879 /* KILabel.m */; };
 		47BCA2122116F9FC00A4B879 /* AdoptionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2112116F9FC00A4B879 /* AdoptionDetailViewController.swift */; };
+		47BCA2152117294600A4B879 /* PAPUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2132117294500A4B879 /* PAPUtility.swift */; };
+		47BCA2162117294600A4B879 /* PAPCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2142117294600A4B879 /* PAPCache.swift */; };
 		5922B6CB435B4134172EDC6C /* Pods_ParseStarterProject_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ADD054BFBFAB0C202FE38F7 /* Pods_ParseStarterProject_Swift.framework */; };
 		8136E54C1CB4D7DD0011D421 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8136E54B1CB4D7DD0011D421 /* Launch.storyboard */; };
 		814C3ACA1B69877600E307BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814C3AC61B69877600E307BB /* Main.storyboard */; };
@@ -44,6 +46,8 @@
 		47BCA2002116B58E00A4B879 /* KILabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KILabel.m; sourceTree = "<group>"; };
 		47BCA2102116B7BC00A4B879 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		47BCA2112116F9FC00A4B879 /* AdoptionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdoptionDetailViewController.swift; sourceTree = "<group>"; };
+		47BCA2132117294500A4B879 /* PAPUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAPUtility.swift; sourceTree = "<group>"; };
+		47BCA2142117294600A4B879 /* PAPCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAPCache.swift; sourceTree = "<group>"; };
 		58C90A3C42F4ED52F4E0BC0C /* Pods-ParseStarterProject-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStarterProject-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStarterProject-Swift/Pods-ParseStarterProject-Swift.release.xcconfig"; sourceTree = "<group>"; };
 		8136E54B1CB4D7DD0011D421 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		814C3AC71B69877600E307BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 		477CA552210882D3005603C3 /* Unity */ = {
 			isa = PBXGroup;
 			children = (
+				47BCA2132117294500A4B879 /* PAPUtility.swift */,
+				47BCA2142117294600A4B879 /* PAPCache.swift */,
 				477CA55321088360005603C3 /* PAPConstants.swift */,
 			);
 			path = Unity;
@@ -265,6 +271,7 @@
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Synchronized/Synchronized.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -278,6 +285,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Synchronized.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -311,11 +319,13 @@
 			files = (
 				47BCA2012116B58E00A4B879 /* KILabel.m in Sources */,
 				81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */,
+				47BCA2162117294600A4B879 /* PAPCache.swift in Sources */,
 				478C31912110173B001C754E /* VideoCellTableViewCell.swift in Sources */,
 				47BCA2122116F9FC00A4B879 /* AdoptionDetailViewController.swift in Sources */,
 				477CA5512108773B005603C3 /* ProfileCell.swift in Sources */,
 				477CA55421088360005603C3 /* PAPConstants.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
+				47BCA2152117294600A4B879 /* PAPUtility.swift in Sources */,
 				4759C5082105E14000413872 /* AdoptionTableViewController.swift in Sources */,
 				475BF7E7210C73CF00DCC746 /* PetsTableViewController.swift in Sources */,
 				47BCA1FD2116B3DC00A4B879 /* postCell.swift in Sources */,

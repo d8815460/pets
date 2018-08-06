@@ -14,4 +14,5 @@ pod 'RealmSwift'
 pod 'ESTabBarController-swift'
 pod 'Canvas'
 pod 'FormatterKit', '~> 1.8'
+pod 'Synchronized', '~> 4.0.0'
 end

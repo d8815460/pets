@@ -52,12 +52,12 @@ class pUser: Object {
 
 // MARK: - User Class
 // Class key
-let kPAPUserClassKey                            = "_User"
+let kPAPUserClassKey                        = "_User"
 // Field keys
-let kPAPUserInstagramUrlKey                     = "instagramUrl"
-let kPAPUserPicSmallKey                         = "thumbnailPic"
-let kPAPUserPicMediumKey                        = "mediumPic"
-let kPAPUserAnimalAreaPkidKey                   = "animalAreaPkid"
+let kPAPUserInstagramUrlKey                 = "instagramUrl"
+let kPAPUserPicSmallKey                     = "thumbnailPic"
+let kPAPUserPicMediumKey                    = "mediumPic"
+let kPAPUserAnimalAreaPkidKey               = "animalAreaPkid"
 
 
 // MARK: - Videos Class
@@ -157,3 +157,53 @@ let kServerAdoptionShelterAddressKey        = "shelter_address"
 let kServerAdoptionShelterNameKey           = "shelter_name"
 let kServerAdoptionShelterTelKey            = "shelter_tel"
 let kServerAdoptionAnimalAgeKey             = "animal_age"
+
+// MARK:- Activity Class
+// Class key
+let kPAPActivityClassKey        = "Activity"
+
+// Field keys
+let kPAPActivityTypeKey         = "type"
+let kPAPActivityFromUserKey     = "fromUser"
+let kPAPActivityToUserKey       = "toUser"
+let kPAPActivityContentKey      = "content"
+let kPAPActivityAdoptionKey     = "adoption"
+let kPAPActivityPhotoKey        = "photo"
+
+// Type values
+let kPAPActivityTypeLike        = "like"
+let kPAPActivityTypeFollow      = "follow"
+let kPAPActivityTypeComment     = "comment"
+let kPAPActivityTypeJoined      = "joined"
+
+// MARK:- Cached Adoption Attributes
+// keys
+let kPAPAdoptionAttributesIsLikedByCurrentUserKey = "isLikedByCurrentUser";
+let kPAPAdoptionAttributesLikeCountKey            = "likeCount"
+let kPAPAdoptionAttributesLikersKey               = "likers"
+let kPAPAdoptionAttributesCommentCountKey         = "commentCount"
+let kPAPAdoptionAttributesCommentersKey           = "commenters"
+
+// MARK:- Cached User Attributes
+// keys
+let kPAPUserAttributesAdoptionCountKey              = "adoptionCount"
+let kPAPUserAttributesIsFollowedByCurrentUserKey    = "isFollowedByCurrentUser"
+
+// MARK:- User Info Keys
+let PAPAdoptionDetailsViewControllerUserLikedUnlikedAdoptionNotificationUserInfoLikedKey = "liked"
+let kPAPEditAdoptionViewControllerUserInfoCommentKey = "comment"
+
+
+// MARK:- NSNotification
+
+let PAPAppDelegateApplicationDidReceiveRemoteNotification               = "com.parse.Anypic.appDelegate.applicationDidReceiveRemoteNotification"
+let PAPUtilityUserFollowingChangedNotification                          = "com.parse.Anypic.utility.userFollowingChanged"
+let PAPUtilityUserLikedUnlikedAdoptionCallbackFinishedNotification      = "com.parse.Anypic.utility.userLikedUnlikedAdoptionCallbackFinished"
+let PAPUtilityDidFinishProcessingProfilePictureNotification             = "com.parse.Anypic.utility.didFinishProcessingProfilePictureNotification"
+let PAPTabBarControllerDidFinishEditingAdoptionNotification             = "com.parse.Anypic.tabBarController.didFinishEditingAdoption"
+let PAPTabBarControllerDidFinishImageFileUploadNotification             = "com.parse.Anypic.tabBarController.didFinishImageFileUploadNotification"
+let PAPAdoptionDetailsViewControllerUserDeletedAdoptionNotification       = "com.parse.Anypic.adoptionDetailsViewController.userDeletedAdoption"
+let PAPAdoptionDetailsViewControllerUserLikedUnlikedAdoptionNotification  = "com.parse.Anypic.adoptionDetailsViewController.userLikedUnlikedAdoptionInDetailsViewNotification"
+let PAPAdoptionDetailsViewControllerUserCommentedOnAdoptionNotification   = "com.parse.Anypic.adoptionDetailsViewController.userCommentedOnAdoptionInDetailsViewNotification"
+
+

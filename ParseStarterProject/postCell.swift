@@ -9,9 +9,17 @@
 import UIKit
 import Parse
 import ParseUI
+import Synchronized
+
+@objc(AYIPostCellDelegate)
+protocol PostCellDelegate: NSObjectProtocol {
+    @objc optional func postCellClickMoreButton(didClickPostMoreButton post: PFObject)
+}
 
 class postCell: PFTableViewCell {
-    
+
+    public weak var delegate: PostCellDelegate?
+
     @IBOutlet weak var avaView: UIView!
 
     @IBOutlet weak var avaImg: UIImageView!
@@ -33,7 +41,48 @@ class postCell: PFTableViewCell {
     @IBOutlet weak var likeLbl: UILabel!
     
     @IBOutlet weak var uuidLbl: UILabel!
-    
+
+    public var adoptionObject: PFObject! {
+        didSet {
+            let attributesForAdoption = PAPCache.sharedCache.attributesForAdoption(adoption: self.adoptionObject)
+
+            if attributesForAdoption != nil {
+                self.likeLbl.text = String(PAPCache.sharedCache.likeCountForAdoption(adoption: self.adoptionObject))
+            } else {
+                // check if we can update the cache
+                synchronized(self) {
+                    let query: PFQuery = PAPUtility.queryForActivitiesOnAdoption(adoption: self.adoptionObject, cachePolicy: PFCachePolicy.networkOnly)
+                    query.findObjectsInBackground(block: { (objects, error) in
+                        if error != nil {
+                            return
+                        }
+                        var likers = [PFUser]()
+                        var commenters = [PFUser]()
+
+                        var isLikedByCurrentUser = false
+
+                        for activity in objects! {
+                            if (activity.object(forKey: kPAPActivityTypeKey) as! String) == kPAPActivityTypeLike && activity.object(forKey: kPAPActivityFromUserKey) != nil {
+                                likers.append(activity.object(forKey: kPAPActivityFromUserKey) as! PFUser)
+                            } else if (activity.object(forKey: kPAPActivityTypeKey) as! String) == kPAPActivityTypeComment && activity.object(forKey: kPAPActivityFromUserKey) != nil {
+                                commenters.append(activity.object(forKey: kPAPActivityFromUserKey) as! PFUser)
+                            }
+
+                            if (activity.object(forKey: kPAPActivityFromUserKey) as? PFUser)?.objectId == PFUser.current()!.objectId {
+                                if (activity.object(forKey: kPAPActivityTypeKey) as! String) == kPAPActivityTypeLike {
+                                    isLikedByCurrentUser = true
+                                }
+                            }
+                        }
+
+                        PAPCache.sharedCache.setAttributesForAdoption(adoption: self.adoptionObject, likers: likers, commenters: commenters, likedByCurrentUser: isLikedByCurrentUser)
+                        self.likeLbl.text = PAPCache.sharedCache.likeCountForAdoption(adoption: self.adoptionObject!).description
+                    })
+                }
+            }
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -50,7 +99,17 @@ class postCell: PFTableViewCell {
         
         // Configure the view for the selected state
     }
-    
+
+    @IBAction func moreBtn_click(_ sender: Any) {
+        guard let d = delegate else {
+            return
+        }
+        if d.responds(to:
+            #selector(PostCellDelegate.postCellClickMoreButton(didClickPostMoreButton:))) {
+            d.postCellClickMoreButton!(didClickPostMoreButton: self.adoptionObject!)
+        }
+    }
+
     @IBAction func likeBtn_click(_ sender: Any) {
         
         // declare title of button
@@ -122,11 +181,10 @@ class postCell: PFTableViewCell {
                                         object.deleteEventually()
                                     }}}}}}}}
     }// like clicked button action over line
-    
 }// postCell class over line
 
 //custom functions
-extension postCell{
+extension postCell {
     
     fileprivate func setAvaImgLayer(){
         self.avaImg.layer.cornerRadius = self.avaImg.bounds.size.width / 2
@@ -145,7 +203,7 @@ extension postCell{
 }
 
 //custom functions selectors
-extension postCell{
+extension postCell {
     
     @objc fileprivate func likeTap(){
         
@@ -164,39 +222,40 @@ extension postCell{
         }
         
         // declare title of button
-        let title = likeBtn.title(for: UIControlState())
-        
-        if title == "unlike" {
-            
-            let object = PFObject(className: "likes")
-            object["by"] = PFUser.current()?.username
-            object["to"] = uuidLbl.text
-            object.saveInBackground { (success, error) in
-                if success {
-                    print("liked")
-                    self.likeBtn.setTitle("like", for: UIControlState())
-                    self.likeBtn.setBackgroundImage(UIImage(named: "like.png"), for: UIControlState())
-                    
-                    // send notification if we liked to refresh TableView
-                    NotificationCenter.default.post(name:
-                        Notification.Name(rawValue: "liked"), object: nil)
-                    
-                    // send notification as like
-                    if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
-                        let newsObj = PFObject(className: "news")
-                        newsObj["by"] = PFUser.current()?.username
-                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
-                        newsObj["to"] = self.usernameBtn.titleLabel!.text
-                        newsObj["owner"] = self.usernameBtn.titleLabel!.text
-                        newsObj["uuid"] = self.uuidLbl.text
-                        newsObj["type"] = "like"
-                        newsObj["checked"] = "no"
-                        newsObj.saveEventually()
-                    }//send notification as like oveer line
-                }//save in background success over line
-            }//save in background closure over line
-            
-        } // if title == "unlike" over line
+        let originalLikeCount = likeBtn.title(for: UIControlState())
+        var likeCount: Int = Int(likeLbl!.text!)!
+        let liked: Bool = !likeBtn.isSelected
+
+        if (liked) {
+            likeCount += 1
+            PAPCache.sharedCache.incrementLikerCountForAdoption(adoption: self.adoptionObject)
+        } else {
+            if likeCount > 0 {
+                likeCount -= 1
+            }
+            PAPCache.sharedCache.decrementLikerCountForAdoption(adoption: self.adoptionObject)
+        }
+
+        PAPCache.sharedCache.setAdoptionIsLikedByCurrentUser(adoption: self.adoptionObject, liked: liked)
+
+        likeLbl.text = String(likeCount)
+
+        if liked {
+            PAPUtility.likeAdoptionInBackground(adoption: self.adoptionObject, block: { (succeeded, error) in
+                // FIXME: nil??? same as the original AnyPic. Dead code?
+
+                if !succeeded {
+                    self.likeLbl.text = originalLikeCount
+                }
+            })
+        } else {
+            PAPUtility.unlikeAdoptionInBackground(adoption: self.adoptionObject, block: { (succeeded, error) in
+                // FIXME: nil??? same as the original AnyPic. Dead code?
+
+                if !succeeded {
+                    self.likeLbl.text = originalLikeCount
+                }
+            })
+        }
     }//likeTap function over line
-    
 }

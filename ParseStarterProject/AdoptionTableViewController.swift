@@ -12,7 +12,7 @@ import ParseUI
 import SDWebImage
 import FormatterKit
 
-class AdoptionTableViewController: PFQueryTableViewController {
+class AdoptionTableViewController: PFQueryTableViewController, PostCellDelegate {
 
     var timeFormatter:TTTTimeIntervalFormatter?
 
@@ -84,6 +84,8 @@ class AdoptionTableViewController: PFQueryTableViewController {
             return cell
         } else {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! postCell
+            cell.delegate = self
+            cell.adoptionObject = object
             cell.usernameBtn.setTitle(object?["animalPlace"] as? String, for: .normal)
             if object?[kPAPAdoptionAnimalCreatetimeKey] != nil {
                 cell.dateLbl.text = self.timeFormatter?.stringForTimeInterval(from: Date(), to: object?[kPAPAdoptionAnimalCreatetimeKey] as! Date)
@@ -92,7 +94,7 @@ class AdoptionTableViewController: PFQueryTableViewController {
             }
             cell.picImg?.sd_setImage(with: URL(string: object?.object(forKey: kPAPAdoptionAlbumFileKey) as! String), completed: { (image, error, type, url) in
             })
-
+            
             return cell
         }
         
@@ -116,23 +118,13 @@ class AdoptionTableViewController: PFQueryTableViewController {
         if indexPath.row == ( self.objects!.count - 1 ) {
             self.loadNextPage()
         } else {
-            self.performSegue(withIdentifier: "detail", sender: (self.objects?[indexPath.row])!)
+//            self.performSegue(withIdentifier: "detail", sender: (self.objects?[indexPath.row])!)
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.objects!.count
     }
-    
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -169,6 +161,9 @@ class AdoptionTableViewController: PFQueryTableViewController {
     }
     */
 
+    func postCellClickMoreButton(didClickPostMoreButton post: PFObject) {
+        self.performSegue(withIdentifier: "detail", sender: post)
+    }
 
     // MARK: - Navigation
 
