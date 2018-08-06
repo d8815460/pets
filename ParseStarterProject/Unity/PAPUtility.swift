@@ -11,7 +11,7 @@ class PAPUtility {
     // MARK Like Post
     class func likeAdoptionInBackground(adoption: PFObject, block completionBlock: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {
         let queryExistingLikes = PFQuery(className: kPAPActivityClassKey)
-        queryExistingLikes.whereKey(kPAPActivityPhotoKey, equalTo: adoption)
+        queryExistingLikes.whereKey(kPAPActivityAdoptionKey, equalTo: adoption)
         queryExistingLikes.whereKey(kPAPActivityTypeKey, equalTo: kPAPActivityTypeLike)
         queryExistingLikes.whereKey(kPAPActivityFromUserKey, equalTo: PFUser.current()!)
         queryExistingLikes.cachePolicy = PFCachePolicy.networkOnly
@@ -74,7 +74,7 @@ class PAPUtility {
 
     class func unlikeAdoptionInBackground(adoption: PFObject, block completionBlock: ((_ succeeded: Bool, _ error: NSError?) -> Void)?) {
         let queryExistingLikes = PFQuery(className: kPAPActivityClassKey)
-        queryExistingLikes.whereKey(kPAPActivityPhotoKey, equalTo: adoption)
+        queryExistingLikes.whereKey(kPAPActivityAdoptionKey, equalTo: adoption)
         queryExistingLikes.whereKey(kPAPActivityTypeKey, equalTo: kPAPActivityTypeLike)
         queryExistingLikes.whereKey(kPAPActivityFromUserKey, equalTo: PFUser.current()!)
         queryExistingLikes.cachePolicy = PFCachePolicy.networkOnly
@@ -291,7 +291,7 @@ class PAPUtility {
         let query = PFQuery.orQuery(withSubqueries: [queryLikes,queryComments])
         query.cachePolicy = cachePolicy
         query.includeKey(kPAPActivityFromUserKey)
-        query.includeKey(kPAPActivityPhotoKey)
+        query.includeKey(kPAPActivityAdoptionKey)
 
         return query
     }

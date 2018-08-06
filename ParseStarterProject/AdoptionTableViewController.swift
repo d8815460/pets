@@ -94,7 +94,14 @@ class AdoptionTableViewController: PFQueryTableViewController, PostCellDelegate 
             }
             cell.picImg?.sd_setImage(with: URL(string: object?.object(forKey: kPAPAdoptionAlbumFileKey) as! String), completed: { (image, error, type, url) in
             })
-            
+
+            if PAPCache.sharedCache.isAdoptionLikedByCurrentUser(adoption: object!) {
+                cell.likeBtn.isSelected = true
+            } else {
+                cell.likeBtn.isSelected = false
+            }
+
+
             return cell
         }
         

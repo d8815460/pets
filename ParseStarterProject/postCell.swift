@@ -113,73 +113,41 @@ class postCell: PFTableViewCell {
     @IBAction func likeBtn_click(_ sender: Any) {
         
         // declare title of button
-        let title = (sender as AnyObject).title(for: UIControlState())
-        
-        if title == "unlike" {
-            
-            let object = PFObject(className: "likes")
-            object["by"] = (PFUser.current()?.username)!
-            object["to"] = uuidLbl.text
-            object.saveInBackground{ (success, error) in
-                if success {
-                    
-                    print("liked")
-                    self.likeBtn.setTitle("like", for: UIControlState())
-                    
-                    self.likeBtn.setBackgroundImage(#imageLiteral(resourceName: "like"), for: UIControlState())
-                    
-                    // send notification if we liked to refresh TableView
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "liked"), object: nil)
-                    
-                    // send notification as like
-                    if self.usernameBtn.titleLabel?.text != PFUser.current()?.username {
-                        
-                        let newsObj = PFObject(className: "news")
-                        newsObj["by"] = (PFUser.current()?.username)!
-                        newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
-                        newsObj["to"] = self.usernameBtn.titleLabel!.text
-                        newsObj["owner"] = self.usernameBtn.titleLabel!.text
-                        newsObj["uuid"] = self.uuidLbl.text
-                        newsObj["type"] = "like"
-                        newsObj["checked"] = "no"
-                        newsObj.saveEventually()
-                    }
+        let isSelected = (sender as! UIButton).isSelected
+
+        let originalLikeCount = likeLbl!.text!
+        var likeCount: Int = Int(likeLbl!.text!)!
+        let liked: Bool = !likeBtn.isSelected
+
+        if (liked) {
+            likeCount += 1
+            self.likeBtn.isSelected = true
+            PAPCache.sharedCache.incrementLikerCountForAdoption(adoption: self.adoptionObject)
+        } else {
+            if likeCount > 0 {
+                likeCount -= 1
+            }
+            self.likeBtn.isSelected = false
+            PAPCache.sharedCache.decrementLikerCountForAdoption(adoption: self.adoptionObject)
+        }
+
+        PAPCache.sharedCache.setAdoptionIsLikedByCurrentUser(adoption: self.adoptionObject, liked: liked)
+
+        likeLbl.text = String(likeCount)
+
+        if !isSelected {
+            PAPUtility.likeAdoptionInBackground(adoption: adoptionObject) { (succeeded, error) in
+                if !succeeded {
+                    self.likeLbl.text = originalLikeCount
                 }
             }
-            
-            // if title != "unlike"
         }else{
-            
-            // request existing likes of current user to show post
-            let query = PFQuery(className: "likes")
-            query.whereKey("by", equalTo: PFUser.current()!.username!)
-            query.whereKey("to", equalTo: uuidLbl.text!)
-            query.findObjectsInBackground { (objects, error) in
-                
-                // find objects - likes
-                for object in objects! {
-                    
-                    // delete found like(s)
-                    object.deleteInBackground { (success, error) in
-                        if success { print("disliked")
-                            
-                            self.likeBtn.setTitle("unlike", for: UIControlState())
-                            self.likeBtn.setBackgroundImage(#imageLiteral(resourceName: "unlike"), for: UIControlState())
-                            
-                            // send notification if we liked to refresh TableView
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "liked"), object: nil)
-                            
-                            // delete like notification
-                            let newsQuery = PFQuery(className: "news")
-                            newsQuery.whereKey("by", equalTo: PFUser.current()!.username!)
-                            newsQuery.whereKey("to", equalTo: self.usernameBtn.titleLabel!.text!)
-                            newsQuery.whereKey("uuid", equalTo: self.uuidLbl.text!)
-                            newsQuery.whereKey("type", equalTo: "like")
-                            newsQuery.findObjectsInBackground{ (objects, error)  in
-                                if error == nil {
-                                    for object in objects! {
-                                        object.deleteEventually()
-                                    }}}}}}}}
+            PAPUtility.unlikeAdoptionInBackground(adoption: adoptionObject) { (succeeded, error) in
+                if !succeeded {
+                    self.likeLbl.text = originalLikeCount
+                }
+            }
+        }
     }// like clicked button action over line
 }// postCell class over line
 
@@ -222,17 +190,19 @@ extension postCell {
         }
         
         // declare title of button
-        let originalLikeCount = likeBtn.title(for: UIControlState())
+        let originalLikeCount = likeLbl!.text!
         var likeCount: Int = Int(likeLbl!.text!)!
         let liked: Bool = !likeBtn.isSelected
 
         if (liked) {
             likeCount += 1
+            self.likeBtn.isSelected = true
             PAPCache.sharedCache.incrementLikerCountForAdoption(adoption: self.adoptionObject)
         } else {
             if likeCount > 0 {
                 likeCount -= 1
             }
+            self.likeBtn.isSelected = false
             PAPCache.sharedCache.decrementLikerCountForAdoption(adoption: self.adoptionObject)
         }
 
