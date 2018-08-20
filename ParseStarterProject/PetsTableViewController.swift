@@ -28,7 +28,7 @@ class PetsTableViewController: PFQueryTableViewController {
         super.init(coder: aDecoder)!
 
         // Configure the PFQueryTableView
-        self.parseClassName = "Pets"
+        self.parseClassName = kPAPVideosClassKey
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
         self.objectsPerPage = kPAPPetsLoadObjectsPerPage
@@ -43,6 +43,15 @@ class PetsTableViewController: PFQueryTableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        PFCloud.callFunction(inBackground: "getRandom", withParameters: [:]) { (result, error) in
+            print("result = \(String(describing: result)) \n and error = \(String(describing: error))")
+            let array = (result as! Array<Any>)
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -50,12 +59,12 @@ class PetsTableViewController: PFQueryTableViewController {
     }
 
     override func queryForTable() -> PFQuery<PFObject> {
-        let query:PFQuery<PFObject> = PFQuery(className: kPAPPetsClassKey)
+        let query:PFQuery<PFObject> = PFQuery(className: kPAPVideosClassKey)
         if objects?.count == 0 {
             query.cachePolicy = PFCachePolicy.cacheThenNetwork
         }
-        query.order(byDescending: "updatedAt")
-//        query.order(byAscending: "updatedAt")
+        query.whereKey(kPAPVideosVideoMimetypeKey, equalTo: kPAPVideosTypeImageKey)
+        query.order(byDescending: "objectId")
         return query
     }
 
@@ -77,21 +86,23 @@ class PetsTableViewController: PFQueryTableViewController {
             return cell
         } else {
             var cell:PFTableViewCell?
-            if object?.object(forKey: kPAPPetsTypeKey) as! String == "jpg" {
+            if object?.object(forKey: kPAPVideosVideoMimetypeKey) as! String == kPAPVideosTypeImageKey {
                 cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! ProfileCell
-                let imageFile = object?.object(forKey: kPAPPetsImageFileKey) as! PFFile
+                let imageFile = object?.object(forKey: kPAPVideosVideoThumbnailKey) as! PFFile
+                (cell as! ProfileCell).thumbnailImageView?.sd_setShowActivityIndicatorView(true)
+                (cell as! ProfileCell).thumbnailImageView?.sd_setIndicatorStyle(.whiteLarge)
                 (cell as! ProfileCell).thumbnailImageView.sd_setImage(with: URL(string: imageFile.url!)) { (image, error, type, url) in
 
                 }
-            } else if object?.object(forKey: kPAPPetsTypeKey) as! String == "mp4" {
+            } else if object?.object(forKey: kPAPVideosVideoMimetypeKey) as! String == kPAPVideosTypeVideoKey {
                 cell = self.tableView.dequeueReusableCell(withIdentifier: "videoCell") as! VideoCellTableViewCell
-                let videofile = object?.object(forKey: kPAPPetsVideoFileKey) as! PFFile
+                let videofile = object?.object(forKey: kPAPVideosVideoMp4Key) as! PFFile
                 (cell as! VideoCellTableViewCell).videoPlayerItem =  AVPlayerItem.init(url: URL(string: videofile.url!)!)
                 self.playVideoOnTheCell(cell: (cell as! VideoCellTableViewCell), indexPath: indexPath)
             }
 
 
-            return (cell as! PFTableViewCell)
+            return cell!
         }
 
     }

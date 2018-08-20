@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+let kPAPParseAPIUrlKey              = "https://pg-app-ambcidt2nw8v4pyzpddxcwf9s6ev18.scalabl.cloud/1/"
+let kPAPApplicationIdKey            = "XcQ0KKdcEpvKaqHMXT4Xyrk0cBLFQfM69Um5hgP6"
+let kPAPClientKey                   = "Ysx7fcKDt25W1oXePkstB4aZhUciUPFQ6frk9oBM"
+
 let kPAPPetsLoadObjectsPerPage:UInt = 30
 
 // MARK: - Adoption Object
@@ -50,6 +54,25 @@ class pUser: Object {
     @objc dynamic var animalAreaPkid = 0
 }
 
+// MARK: - Videos Object
+
+class Video: Object {
+    @objc dynamic var objectId              = ""
+    @objc dynamic var fileName              = ""
+    @objc dynamic var user:pUser?           = nil
+    @objc dynamic var video_width           = 0.0
+    @objc dynamic var video_height          = 0.0
+    @objc dynamic var video_rotation        = 0.0
+    @objc dynamic var video_thumbnail       = Data()
+    @objc dynamic var describe              = ""
+    @objc dynamic var video_mp4             = Data()
+    @objc dynamic var views                 = 0
+    @objc dynamic var video_mimetype        = ""
+    @objc dynamic var video_animated_webp   = Data()
+    @objc dynamic var video_duration        = 0.0
+    @objc dynamic var title                 = ""
+}
+
 // MARK: - User Class
 // Class key
 let kPAPUserClassKey                        = "_User"
@@ -64,7 +87,6 @@ let kPAPUserAnimalAreaPkidKey               = "animalAreaPkid"
 // Class key
 let kPAPVideosClassKey                      = "Videos"
 // Field keys
-let kPAPVideosVideoIdKey                    = "videoid"
 let kPAPVideosVideoHeightKey                = "video_height"
 let kPAPVideosVideoWidthKey                 = "video_width"
 let kPAPVideosVideoRotationKey              = "video_rotation"
@@ -72,29 +94,19 @@ let kPAPVideosVideoMimetypeKey              = "video_mimetype"
 let kPAPVideosVideoDurationKey              = "video_duration"
 let kPAPVideosTitleKey                      = "title"
 let kPAPVideosDescribeKey                   = "describe"
-let kPAPVideosUploadTimeKey                 = "upload_time"
 let kPAPVideosPubTimeKey                    = "pub_time"
 let kPAPVideosViewsKey                      = "views"
-let kPAPVideosUserIdKey                     = "userid"
 let kPAPVideosCommentStatusKey              = "comment_status"
 let kPAPVideosStatusKey                     = "status"
 let kPAPVideosVideoOggKey                   = "video_ogg"
 let kPAPVideosUserKey                       = "user"
 let kPAPVideosVideoGifKey                   = "video_gif"
 let kPAPVideosVideoThumbnailKey             = "video_thumbnail"
-let kPAPVideosVideoKey                      = "video"
 let kPAPVideosVideoAnimatedWebpKey          = "video_animated_webp"
 let kPAPVideosVideoMp4Key                   = "video_mp4"
-
-// MARK: - Pets Class
-// Class key
-let kPAPPetsClassKey                        = "Pets"
-// Field keys
-let kPAPPetsUserKey                         = "user"
-let kPAPPetsImageFileKey                    = "imageFile"
-let kPAPPetsVideoFileKey                    = "videoFile"
-let kPAPPetsFileNameKey                     = "fileName"
-let kPAPPetsTypeKey                         = "type"
+let kPAPVideosFileNameKey                   = "fileName"
+let kPAPVideosTypeImageKey                  = "image/jpg"
+let kPAPVideosTypeVideoKey                  = "video/mp4"
 
 // MARK: - Adoption Class
 // Class key

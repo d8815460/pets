@@ -1,12 +1,142 @@
 import Foundation
 import CoreGraphics
-//import UIImageAFAdditions
-//import ParseFacebookUtils
 import Parse
+import AVFoundation
+import RealmSwift
 
 class PAPUtility {
 
     // MARK:- PAPUtility
+    
+    // MARK:- 儲存Instagram照片影片使用，本地端DB已經有資料，就不用再上傳至Parse Server
+    class func saveLocalInstagramPhotoAndVideo(aPath:String, toUserId:String) {
+        let fileName = "test"
+        let fileType = "bundle"
+        if var path = Bundle.main.path(forResource: fileName, ofType:fileType) {
+            // use path
+            path = path + aPath //"/pets"
+            let postUser = PFUser(withoutDataWithClassName: "_User", objectId: toUserId) // "NwErAqRy8T" 這邊要依據每次爬蟲爬出來的結果，新建用戶並給予該用戶 objectId
+            do{
+                let fileList = try FileManager.default.contentsOfDirectory(atPath: path)
+                
+                let realm = try! Realm()
+                
+                for file in fileList{
+                    let fileType = file.substring(from: file.index(file.endIndex, offsetBy: -3))
+                    let userPhoto = PFObject(className:kPAPVideosClassKey)
+                    let fileName = "\(path)/\(file)"
+                    
+                    // 先查看local DB 是否已經存在該檔案
+                    // NSPredicate(format: "%K == \(file)", "fileName")
+                    let videos = realm.objects(Video.self).filter("fileName = %@", file).first
+                    if videos != nil {
+                        //已經存在於DB，不再上傳
+                        print("已經存在於DB，不再上傳")
+                    } else {
+                        if fileType == "jpg" {
+                            let image = UIImage(named: fileName)
+                            let imageData = UIImagePNGRepresentation(image!)
+                            let imageFile = PFFile(name:file, data:imageData!)
+                            userPhoto[kPAPVideosVideoThumbnailKey]      = imageFile
+                            userPhoto[kPAPVideosFileNameKey]            = file
+                            userPhoto[kPAPVideosVideoMimetypeKey]       = kPAPVideosTypeImageKey
+                            userPhoto[kPAPVideosUserKey]                = postUser
+                            userPhoto.saveInBackground { (success, error) in
+                                if success {
+                                    print("save success")
+                                    let video = Video()
+                                    video.video_thumbnail   = imageData!
+                                    video.fileName          = file
+                                    video.video_mimetype    = kPAPVideosTypeImageKey
+                                    let aUser = pUser()
+                                    aUser.objectId = toUserId
+                                    video.user              = aUser
+                                    try! realm.write {
+                                        realm.add(video)
+                                    }
+                                } else {
+                                    print("save error")
+                                }
+                            }
+                        } else { // mp4
+                            let fileData = try PFFile(name: file, contentsAtPath: fileName)
+                            let imageData = UIImagePNGRepresentation(self.imageFromVideo(url: URL(fileURLWithPath: fileName), at: 0)!)!
+                            let imageFile = try PFFile(name: "image", data: imageData)!
+                            userPhoto[kPAPVideosVideoThumbnailKey]      = imageFile
+                            userPhoto[kPAPVideosFileNameKey]            = file
+                            userPhoto[kPAPVideosVideoMp4Key]            = fileData
+                            userPhoto[kPAPVideosVideoAnimatedWebpKey]   = fileData
+                            userPhoto[kPAPVideosVideoHeightKey]         = 640
+                            userPhoto[kPAPVideosVideoWidthKey]          = 640
+                            userPhoto[kPAPVideosVideoRotationKey]       = 0
+                            userPhoto[kPAPVideosViewsKey]               = 0
+                            userPhoto[kPAPVideosVideoMimetypeKey]       = kPAPVideosTypeVideoKey
+                            userPhoto[kPAPVideosVideoDurationKey]       = self.getMediaDuration(url: NSURL(fileURLWithPath: fileName))
+                            userPhoto[kPAPVideosTitleKey]               = "社會貓"
+                            userPhoto[kPAPVideosDescribeKey]            = "這麼可愛的貓，你見過嗎？"
+                            userPhoto[kPAPVideosUserKey]                = postUser
+                            let data = try fileData.getData()
+                            userPhoto.saveInBackground { (success, error) in
+                                if success {
+                                    print("save success")
+                                    let video = Video()
+                                    video.video_thumbnail       = imageData
+                                    video.fileName              = file
+                                    video.video_mp4             = data
+                                    video.video_animated_webp   = data
+                                    video.video_height          = 640
+                                    video.video_width           = 640
+                                    video.video_rotation        = 0
+                                    video.views                 = 0
+                                    video.video_mimetype        = kPAPVideosTypeVideoKey
+                                    video.video_duration        = self.getMediaDuration(url: NSURL(fileURLWithPath: fileName))
+                                    video.title                 = "社會貓"
+                                    video.describe              = "這麼可愛的貓，你見過嗎？"
+                                    let aUser = pUser()
+                                    aUser.objectId = toUserId
+                                    video.user              = aUser
+                                    try! realm.write {
+                                        realm.add(video)
+                                    }
+                                } else {
+                                    print("save error")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch{
+                print("Cannot list directory")
+            }
+        }
+    }
+    
+    // 從影片擷取照片
+    class func imageFromVideo(url: URL, at time: TimeInterval) -> UIImage? {
+        let asset = AVURLAsset(url: url)
+        
+        let assetIG = AVAssetImageGenerator(asset: asset)
+        assetIG.appliesPreferredTrackTransform = true
+        assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels
+        
+        let cmTime = CMTime(seconds: time, preferredTimescale: 60)
+        let thumbnailImageRef: CGImage
+        do {
+            thumbnailImageRef = try assetIG.copyCGImage(at: cmTime, actualTime: nil)
+        } catch let error {
+            print("Error: \(error)")
+            return nil
+        }
+        
+        return UIImage(cgImage: thumbnailImageRef)
+    }
+    
+    class func getMediaDuration(url: NSURL!) -> Float64{
+        let asset : AVURLAsset = AVURLAsset(url: url as URL) as AVURLAsset
+        let duration : CMTime = asset.duration
+        return CMTimeGetSeconds(duration)
+    }
 
     // MARK Like Post
     class func likeAdoptionInBackground(adoption: PFObject, block completionBlock: ((_ succeeded: Bool, _ error: Error?) -> Void)?) {

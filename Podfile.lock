@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.7.2)
+  - Alamofire (4.7.3)
   - Bolts/Tasks (1.9.0)
   - Canvas (0.1.2)
   - ESTabBarController-swift (2.6.2)
@@ -33,6 +33,7 @@ PODS:
     - FormatterKit/Resources
   - FormatterKit/URLRequestFormatter (1.8.2):
     - FormatterKit/Resources
+  - LoadMoreTableViewController (1.3.2)
   - Parse (1.17.1):
     - Parse/Core (= 1.17.1)
   - Parse/Core (1.17.1):
@@ -49,16 +50,19 @@ PODS:
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
   - Synchronized (4.0.0)
+  - TweenController (1.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - Canvas
   - ESTabBarController-swift
   - FormatterKit (~> 1.8)
-  - ParseUI
+  - LoadMoreTableViewController
+  - ParseUI (from `.`)
   - RealmSwift
   - SDWebImage (~> 4.0)
   - Synchronized (~> 4.0.0)
+  - TweenController
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -67,26 +71,33 @@ SPEC REPOS:
     - Canvas
     - ESTabBarController-swift
     - FormatterKit
+    - LoadMoreTableViewController
     - Parse
-    - ParseUI
     - Realm
     - RealmSwift
     - SDWebImage
     - Synchronized
+    - TweenController
+
+EXTERNAL SOURCES:
+  ParseUI:
+    :path: "."
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Canvas: eb861e3b555d032648146c8ffda1a5dea40059ca
   ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
   FormatterKit: 4b8f29acc9b872d5d12a63efb560661e8f2e1b98
+  LoadMoreTableViewController: 3378dc43d56f6e861a1a5a932334f446ee0aaa63
   Parse: d3edaf8c7c722cb33cb83ba7821d015ae32d362d
-  ParseUI: 2b37a0bc692a3e7666cf0c37b5521dfddd74a1af
+  ParseUI: 03716b5a4aa56bbf5cd9041ef5d447db76c78c89
   Realm: c286caf4dbf346ce24aad49ca76c7ce622d4a082
   RealmSwift: 2a9281e37d6de55f66f76254d49d28aeb1b729e4
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   Synchronized: bac5463b70c2f5fde23fe4ae588739bf9be095a4
+  TweenController: 476a70703c91483a3d9b4c91b61175784e55c0af
 
-PODFILE CHECKSUM: 32067326844ae8784c9ab20ecb0cff20ea88cc50
+PODFILE CHECKSUM: 1ef13f118db24d5ed110de211048c50967aca98b
 
 COCOAPODS: 1.5.0

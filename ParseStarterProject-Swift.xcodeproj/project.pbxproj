@@ -7,11 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		470F6395211EBD0200E6AEDF /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F6394211EBD0200E6AEDF /* WelcomeViewController.swift */; };
+		47192A3421197C320011CF52 /* CustomLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47192A3321197C320011CF52 /* CustomLogInViewController.swift */; };
+		47192A3621197C3E0011CF52 /* CustomSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47192A3521197C3E0011CF52 /* CustomSignUpViewController.swift */; };
 		4759C5082105E14000413872 /* AdoptionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4759C5072105E14000413872 /* AdoptionTableViewController.swift */; };
 		475BF7E7210C73CF00DCC746 /* PetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */; };
 		477CA5512108773B005603C3 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477CA5502108773B005603C3 /* ProfileCell.swift */; };
 		477CA55421088360005603C3 /* PAPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477CA55321088360005603C3 /* PAPConstants.swift */; };
+		477E2351212AD4460034570D /* ArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477E2350212AD4460034570D /* ArtView.swift */; };
 		478C31912110173B001C754E /* VideoCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C31902110173B001C754E /* VideoCellTableViewCell.swift */; };
+		47A048A421243F7400551423 /* test.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47A048A321243F7400551423 /* test.bundle */; };
+		47A048A62126B39400551423 /* PetsFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A048A52126B39400551423 /* PetsFeedTableViewController.swift */; };
+		47A048A82126B6BB00551423 /* petCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A048A72126B6BB00551423 /* petCell.swift */; };
+		47B7465B212A9EDB00AC228A /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7465A212A9EDB00AC228A /* StartViewController.swift */; };
 		47BCA1FD2116B3DC00A4B879 /* postCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA1FC2116B3DC00A4B879 /* postCell.swift */; };
 		47BCA2012116B58E00A4B879 /* KILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2002116B58E00A4B879 /* KILabel.m */; };
 		47BCA2122116F9FC00A4B879 /* AdoptionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA2112116F9FC00A4B879 /* AdoptionDetailViewController.swift */; };
@@ -34,11 +42,19 @@
 /* Begin PBXFileReference section */
 		0ADD054BFBFAB0C202FE38F7 /* Pods_ParseStarterProject_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParseStarterProject_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF9A144505B5C7827ACB327 /* Pods-ParseStarterProject-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStarterProject-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStarterProject-Swift/Pods-ParseStarterProject-Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		470F6394211EBD0200E6AEDF /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		47192A3321197C320011CF52 /* CustomLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLogInViewController.swift; sourceTree = "<group>"; };
+		47192A3521197C3E0011CF52 /* CustomSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSignUpViewController.swift; sourceTree = "<group>"; };
 		4759C5072105E14000413872 /* AdoptionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdoptionTableViewController.swift; sourceTree = "<group>"; };
 		475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsTableViewController.swift; sourceTree = "<group>"; };
 		477CA5502108773B005603C3 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		477CA55321088360005603C3 /* PAPConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAPConstants.swift; sourceTree = "<group>"; };
+		477E2350212AD4460034570D /* ArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtView.swift; sourceTree = "<group>"; };
 		478C31902110173B001C754E /* VideoCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCellTableViewCell.swift; sourceTree = "<group>"; };
+		47A048A321243F7400551423 /* test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = test.bundle; sourceTree = "<group>"; };
+		47A048A52126B39400551423 /* PetsFeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsFeedTableViewController.swift; sourceTree = "<group>"; };
+		47A048A72126B6BB00551423 /* petCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = petCell.swift; sourceTree = "<group>"; };
+		47B7465A212A9EDB00AC228A /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		47BCA1FC2116B3DC00A4B879 /* postCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postCell.swift; sourceTree = "<group>"; };
 		47BCA1FF2116B58E00A4B879 /* KILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KILabel.h; sourceTree = "<group>"; };
 		47BCA2002116B58E00A4B879 /* KILabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KILabel.m; sourceTree = "<group>"; };
@@ -90,6 +106,15 @@
 			path = Unity;
 			sourceTree = "<group>";
 		};
+		47B74659212A9EAF00AC228A /* Wellcom&Login&SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				47B7465A212A9EDB00AC228A /* StartViewController.swift */,
+				477E2350212AD4460034570D /* ArtView.swift */,
+			);
+			path = "Wellcom&Login&SignUp";
+			sourceTree = "<group>";
+		};
 		47BCA1FE2116B58E00A4B879 /* KILabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +127,7 @@
 		814C3AC51B69877600E307BB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				47A048A321243F7400551423 /* test.bundle */,
 				814C3AC81B69877600E307BB /* Images.xcassets */,
 				814C3AC91B69877600E307BB /* Info.plist */,
 				8136E54B1CB4D7DD0011D421 /* Launch.storyboard */,
@@ -132,16 +158,22 @@
 		81BA81471A49DA1800E65899 /* ParseStarterProject */ = {
 			isa = PBXGroup;
 			children = (
+				47B74659212A9EAF00AC228A /* Wellcom&Login&SignUp */,
+				477CA552210882D3005603C3 /* Unity */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
+				470F6394211EBD0200E6AEDF /* WelcomeViewController.swift */,
 				4759C5072105E14000413872 /* AdoptionTableViewController.swift */,
 				47BCA2112116F9FC00A4B879 /* AdoptionDetailViewController.swift */,
 				47BCA1FC2116B3DC00A4B879 /* postCell.swift */,
+				47A048A72126B6BB00551423 /* petCell.swift */,
 				475BF7E6210C73CF00DCC746 /* PetsTableViewController.swift */,
+				47A048A52126B39400551423 /* PetsFeedTableViewController.swift */,
 				477CA5502108773B005603C3 /* ProfileCell.swift */,
 				478C31902110173B001C754E /* VideoCellTableViewCell.swift */,
 				81BA814C1A49DA1800E65899 /* ViewController.swift */,
-				477CA552210882D3005603C3 /* Unity */,
+				47192A3321197C320011CF52 /* CustomLogInViewController.swift */,
+				47192A3521197C3E0011CF52 /* CustomSignUpViewController.swift */,
 			);
 			path = ParseStarterProject;
 			sourceTree = "<group>";
@@ -244,6 +276,7 @@
 				814C3ACA1B69877600E307BB /* Main.storyboard in Resources */,
 				814C3ACB1B69877600E307BB /* Images.xcassets in Resources */,
 				8136E54C1CB4D7DD0011D421 /* Launch.storyboard in Resources */,
+				47A048A421243F7400551423 /* test.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,12 +295,14 @@
 				"${BUILT_PRODUCTS_DIR}/Canvas/Canvas.framework",
 				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/FormatterKit/FormatterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/LoadMoreTableViewController/LoadMoreTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
 				"${BUILT_PRODUCTS_DIR}/ParseUI/ParseUI.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Synchronized/Synchronized.framework",
+				"${BUILT_PRODUCTS_DIR}/TweenController/TweenController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -276,12 +311,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Canvas.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FormatterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoadMoreTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ParseUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Synchronized.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TweenController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -314,16 +351,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				47BCA2012116B58E00A4B879 /* KILabel.m in Sources */,
+				47A048A82126B6BB00551423 /* petCell.swift in Sources */,
 				81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */,
 				47BCA2162117294600A4B879 /* PAPCache.swift in Sources */,
 				478C31912110173B001C754E /* VideoCellTableViewCell.swift in Sources */,
+				47B7465B212A9EDB00AC228A /* StartViewController.swift in Sources */,
+				47192A3621197C3E0011CF52 /* CustomSignUpViewController.swift in Sources */,
 				47BCA2122116F9FC00A4B879 /* AdoptionDetailViewController.swift in Sources */,
+				470F6395211EBD0200E6AEDF /* WelcomeViewController.swift in Sources */,
 				477CA5512108773B005603C3 /* ProfileCell.swift in Sources */,
 				477CA55421088360005603C3 /* PAPConstants.swift in Sources */,
+				477E2351212AD4460034570D /* ArtView.swift in Sources */,
+				47A048A62126B39400551423 /* PetsFeedTableViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 				47BCA2152117294600A4B879 /* PAPUtility.swift in Sources */,
 				4759C5082105E14000413872 /* AdoptionTableViewController.swift in Sources */,
 				475BF7E7210C73CF00DCC746 /* PetsTableViewController.swift in Sources */,
+				47192A3421197C320011CF52 /* CustomLogInViewController.swift in Sources */,
 				47BCA1FD2116B3DC00A4B879 /* postCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,7 +490,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0FF9A144505B5C7827ACB327 /* Pods-ParseStarterProject-Swift.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = DNX54GYZPT;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -455,7 +499,7 @@
 					"$(PROJECT_DIR)/Lottie",
 				);
 				INFOPLIST_FILE = Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ParseStarterProject-Swift";
@@ -470,7 +514,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 58C90A3C42F4ED52F4E0BC0C /* Pods-ParseStarterProject-Swift.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = DNX54GYZPT;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -479,7 +523,7 @@
 					"$(PROJECT_DIR)/Lottie",
 				);
 				INFOPLIST_FILE = Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "ParseStarterProject-Swift";

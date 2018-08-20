@@ -489,9 +489,8 @@
 // Selectively refresh pagination cell
 - (void)_refreshPaginationCell {
     if ([self _shouldShowPaginationCell]) {
-        [self.tableView reloadData];
-//        [self.tableView reloadRowsAtIndexPaths:@[ [self _indexPathForPaginationCell] ]
-//                              withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[ [self _indexPathForPaginationCell] ]
+                              withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 

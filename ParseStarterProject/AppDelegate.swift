@@ -15,6 +15,8 @@ import Alamofire
 import Realm
 import RealmSwift
 import ESTabBarController_swift
+//import ParseFacebookUtilsV4
+
 
 // If you want to use any of the UI components, uncomment this line
 // import ParseUI
@@ -35,19 +37,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
         let configuration = ParseClientConfiguration {
             // Add your Parse applicationId:
-            $0.applicationId = "371p9Z6cG2StspkHU5P1kd8jRRKhYPadBiEaTsdl"
+            $0.applicationId = kPAPApplicationIdKey
             // Uncomment and add your clientKey (it's not required if you are using Parse Server):
-            $0.clientKey = "EEVYOVAiELAtFIAVCtE4M1jdK6RTGRkcaaPsXYhl"
+            $0.clientKey = kPAPClientKey
 
             // Uncomment the following line and change to your Parse Server address;
-            $0.server = "https://pg-app-gclle1492tx3zdcg7wll5yv5jr7jde.scalabl.cloud/1/"
+            $0.server = kPAPParseAPIUrlKey
 
             // Enable storing and querying data from Local Datastore.
             // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
             $0.isLocalDatastoreEnabled = false
         }
+        
         Parse.initialize(with: configuration)
-
+        PFUser.enableRevocableSessionInBackground()
+        
         // ****************************************************************************
         // If you are using Facebook, uncomment and add your FacebookAppID to your bundle's plist as
         // described here: https://developers.facebook.com/docs/getting-started/facebook-sdk-for-ios/
@@ -91,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         }
-
+        
         return true
     }
 
@@ -193,7 +197,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     ///////////////////////////////////////////////////////////
     // Uncomment this method if you are using Facebook
     ///////////////////////////////////////////////////////////
-    // func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-    //     return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication, session:PFFacebookUtils.session())
-    // }
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+//    }
+    
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+//        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+//        return handled
+//    }
 }

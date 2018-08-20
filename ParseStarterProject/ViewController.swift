@@ -9,9 +9,12 @@
 
 import UIKit
 import Parse
+import ParseUI
 import Alamofire
 import RealmSwift
 import AVFoundation
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
 func content(_ path:String)->String?{
     do {
@@ -32,80 +35,41 @@ class ViewController: UIViewController {
          * 用來爬官方資料的爬蟲，如果本地資料庫已經有了，就不再更新至Parse Server，減少call API的次數
          *
          */
-        self.queryFromAdoption()
+//        self.queryFromAdoption()
 
 
         /*
          * 將爬蟲爬回來的照片及影片，上傳至Parse Server.
          */
-//        self.saveInstagramPhotoAndVideo()
-
+        PAPUtility.saveLocalInstagramPhotoAndVideo(aPath: "/pets", toUserId: "NwErAqRy8T")
+        
+        // 檢查目前的登入狀態
+//        if (FBSDKAccessToken.current() != nil) {
+//            // User is Logged in, do work such as go to next view controller
+//        } else {
+//
+//        }
+        
+        /*
+         * Facebook 登入按鈕
+         */
+//        let loginButton = FBSDKLoginButton()
+//        loginButton.readPermissions = ["public_profile", "email"]
+//        loginButton.center = self.view.center
+//        self.view.addSubview(loginButton)
+//        
+//        let connection = FBSDKGraphRequestConnection()
+//        connection.add(FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, group"])) { (request, object, error) in
+//            print("request = \(String(describing: request)),\n Object = \(String(describing: object))\n error = \(String(describing: error))")
+//        }
+//        connection.start()
     }
-
-    func saveInstagramPhotoAndVideo() {
-        let fileName = "test"
-        let fileType = "bundle"
-        if var path = Bundle.main.path(forResource: fileName, ofType:fileType) {
-            // use path
-            path = path + "/lovelycatonline"
-            let postUser = PFUser(withoutDataWithObjectId: "0cPtDCVYGY")  //這邊要依據每次爬蟲爬出來的結果，新建用戶並給予該用戶 objectId
-            do{
-                let fileList = try FileManager.default.contentsOfDirectory(atPath: path)
-
-                for file in fileList{
-                    let fileType = file.substring(from: file.index(file.endIndex, offsetBy: -3))
-                    let userPhoto = PFObject(className:kPAPVideosClassKey)
-                    let fileName = "\(path)/\(file)"
-                    if fileType == "jpg" {
-//                        let image = UIImage(named: fileName)
-//                        let imageData = UIImagePNGRepresentation(image!)
-//                        let imageFile = PFFile(name:file, data:imageData!)
-//                        userPhoto[kPAPPetsImageFileKey] = imageFile
-                    } else { // mp4
-                        let fileData = try PFFile(name: file, contentsAtPath: fileName)
-                        userPhoto[kPAPVideosVideoMp4Key] = fileData
-                        userPhoto[kPAPVideosVideoKey] = fileData
-                        userPhoto[kPAPVideosVideoAnimatedWebpKey] = fileData
-                        let imageData = try PFFile(name: "image", data: UIImagePNGRepresentation(self.imageFromVideo(url: URL(fileURLWithPath: fileName), at: 0)!)!)!
-                        userPhoto[kPAPVideosVideoThumbnailKey] = imageData
-                        userPhoto[kPAPVideosVideoIdKey] = 0
-//                        let size = self.resolutionSizeForLocalVideo(url: NSURL(string: fileName)!)
-                        userPhoto[kPAPVideosVideoHeightKey] = 640
-                        userPhoto[kPAPVideosVideoWidthKey]  = 640
-                        userPhoto[kPAPVideosVideoRotationKey] = 0
-                        userPhoto[kPAPVideosUserKey] = postUser
-                        userPhoto[kPAPVideosVideoMimetypeKey] = "video/mp4"
-                        userPhoto[kPAPVideosVideoDurationKey] = self.getMediaDuration(url: NSURL(fileURLWithPath: fileName))
-                        userPhoto[kPAPVideosTitleKey]   = "社會貓"
-                        userPhoto[kPAPVideosDescribeKey] = "這麼可愛的貓，你見過嗎？"
-                        userPhoto[kPAPVideosUploadTimeKey] = 1524324670
-                        userPhoto[kPAPVideosViewsKey] = 0
-                        userPhoto[kPAPVideosUserIdKey] = 0
-                        userPhoto.saveInBackground { (success, error) in
-                            if success {
-                                print("save success")
-                            } else {
-                                print("save error")
-                            }
-                        }
-
-                    }
-//                    userPhoto[kPAPPetsFileNameKey]  = file
-//                    userPhoto[kPAPPetsTypeKey]      = fileType
-//                    userPhoto[kPAPPetsUserKey]      = postUser
-//                    userPhoto.saveInBackground { (success, error) in
-//                        if success {
-//                            print("save success")
-//                        } else {
-//                            print("save error")
-//                        }
-//                    }
-                }
-            }
-            catch{
-                print("Cannot list directory")
-            }
-        }
+    
+    @IBAction func fbBtn(_ sender: Any) {
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        print("current User = \(String(describing: PFUser.current()))")
     }
 
     func imageFromVideo(url: URL, at time: TimeInterval) -> UIImage? {
@@ -217,9 +181,9 @@ class ViewController: UIViewController {
                                 }
                             })
                         } else {
-                            let isExists = adoptions.filter(kPAPAdoptionAnimalIdKey)
+                            let isExists = adoptions.filter("\(kPAPAdoptionAnimalIdKey) == \(adoption[kPAPAdoptionAnimalIdKey]!)")
                             if isExists.count > 0 {
-                                if (adoptions.first?.animalUpdate)! == ((data as! NSDictionary)[kPAPAdoptionAnimalUpdateKey] as! Date)  {
+                                if (adoption[kPAPAdoptionAnimalUpdateKey] != nil) && (adoptions.first?.animalUpdate)! == (adoption[kPAPAdoptionAnimalUpdateKey] as! Date)  {
                                     // do nothing...
                                 } else {
                                     adoption.saveInBackground(block: { (success, error) in
@@ -252,180 +216,112 @@ class ViewController: UIViewController {
 
     func getPFUser(fromData: Any) -> PFUser {
         /*
-            15 - AVDfO8GBis - 嘉義市流浪動物收容所
-            48 - qg125EkIgH - 基隆市寵物銀行
-            49 - Ukm1DDhQKE - 台北市動物之家
-            50 - 3YEziVdLxL - 新北市板橋區公立動物之家
-            51 - 8OI8iAQ7N8 - 新北市新店區公立動物之家
-            53 - qW5f2BtUl9 - 新北市中和區公立動物之家
-            55 - tr4thsevfc - 新北市淡水區公立動物之家
-            56 - xS9xrCnLIH - 新北市瑞芳區公立動物之家
-            58 - 9tl715rJ0q - 新北市五股區公立動物之家
-            59 - vake2sftFJ - 新北市八里區公立動物之家
-            60 - 1UZDpUrpLV - 新北市三芝區公立動物之家
-            61 - 6CXnX5di5a - 桃園市動物保護教育園區
-            62 - ZBqzs5aXGp - 新竹市動物收容所
-            63 - iZJVVyDB7C - 新竹縣動物收容所
-            67 - ANpBa1nFHS - 台中市動物之家南屯園區
-            68 - XseaFJdXIH - 台中市動物之家后里園區
-            69 - rYtTn0wMm2 - 彰化縣流浪狗中途之家
-            70 - ldv3sNCDpE - 南投縣公立動物收容所
-            71 - jBt35cQoRD - 嘉義市流浪犬收容中心
-            72 - Au3sH1YMfo - 嘉義縣流浪犬中途之家
-            73 - sIK13WZL8L - 臺南市動物之家灣裡站
-            74 - 8bRh5TzHFr - 臺南市動物之家善化站
-            75 - CjeZFL1ovZ - 高雄市壽山動物保護教育園區
-            76 - 8N504cZqtT - 高雄市燕巢動物保護關愛園區
-            77 - TBFLHWoYOH - 屏東縣流浪動物收容所
-            78 - qSNUr1VvAv - 宜蘭縣流浪動物中途之家
-            79 - oDKoDK3iHn - 花蓮縣流浪犬中途之家
-            80 - baGfNu5UuU - 台東縣動物收容中心
-            81 - 0gpmNcE6cg - 連江縣流浪犬收容中心
-            82 - iDO5oaJdxI - 金門縣動物收容中心
-            83 - AdvFOi6ZAn - 澎湖縣流浪動物收容中心
+            15 - 2zHaP1o5g6 - 嘉義市流浪動物收容所
+            48 - HcTtyduVbP - 基隆市寵物銀行
+            49 - zPFJM8RQbn - 台北市動物之家
+            50 - rkWNmdyM5B - 新北市板橋區公立動物之家
+            51 - 63RrKDoSER - 新北市新店區公立動物之家
+            53 - 69Kionba8D - 新北市中和區公立動物之家
+            55 - OwZA5uB4RO - 新北市淡水區公立動物之家
+            56 - 87BowA1EQ2 - 新北市瑞芳區公立動物之家
+            58 - aS7SObCvlW - 新北市五股區公立動物之家
+            59 - 4dksN7h80F - 新北市八里區公立動物之家
+            60 - yljkAt3Gbe - 新北市三芝區公立動物之家
+            61 - GB2B1xNpm0 - 桃園市動物保護教育園區
+            62 - tJDLL6g4uQ - 新竹市動物收容所
+            63 - VJhMHU51J3 - 新竹縣動物收容所
+            67 - wUaB9nL7Bz - 台中市動物之家南屯園區
+            68 - hrEHLELF3B - 台中市動物之家后里園區
+            69 - dUiyYF2pYA - 彰化縣流浪狗中途之家
+            70 - 9lWNmV7bkQ - 南投縣公立動物收容所
+            71 - djT6DvtKe8 - 嘉義市流浪犬收容中心
+            72 - lAUwi1nFdC - 嘉義縣流浪犬中途之家
+            73 - 8uDIjfHzkU - 臺南市動物之家灣裡站
+            74 - SvzOf7hh0H - 臺南市動物之家善化站
+            75 - F1W8QxiIGh - 高雄市壽山動物保護教育園區
+            76 - 5Cb3ZqFJCZ - 高雄市燕巢動物保護關愛園區
+            77 - c0igVxnReJ - 屏東縣流浪動物收容所
+            78 - tam4oxzKYQ - 宜蘭縣流浪動物中途之家
+            79 - eW6jDwkf3g - 花蓮縣流浪犬中途之家
+            80 - p3uG1ZFUg2 - 台東縣動物收容中心
+            81 - hS7gxEtth6 - 連江縣流浪犬收容中心
+            82 - YT9fOc95et - 金門縣動物收容中心
+            83 - 9XUrkxAGGR - 澎湖縣流浪動物收容中心
             89 - xk74AdqNAn - 雲林縣流浪動物收容所
-            92 - Z35xFKjQz4 - 新北市政府動物保護防疫處
-            96 - yBkBPWItFA - 苗栗縣生態保育教育中心
+            92 - ZBqx2W6wZj - 新北市政府動物保護防疫處
+            96 - FG2Jcj679Y - 苗栗縣生態保育教育中心
         */
         let fromShelterPkid = (fromData as! NSDictionary)[kServerAdoptionAnimalShelterPkidKey]! as! Int
         var postUser = PFUser()
         switch fromShelterPkid {
         case 15:
-            postUser = PFUser(withoutDataWithObjectId: "AVDfO8GBis")
-//            postUser.username = "嘉義市流浪動物收容所"
-//            postUser.setValue(15, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "2zHaP1o5g6")
         case 48:
-            postUser = PFUser(withoutDataWithObjectId: "qg125EkIgH")
-//            postUser.username = "基隆市寵物銀行"
-//            postUser.setValue(48, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "HcTtyduVbP")
         case 49:
-            postUser = PFUser(withoutDataWithObjectId: "Ukm1DDhQKE")
-//            postUser.username = "台北市動物之家"
-//            postUser.setValue(49, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "zPFJM8RQbn")
         case 50:
-            postUser = PFUser(withoutDataWithObjectId: "3YEziVdLxL")
-//            postUser.username = "新北市板橋區公立動物之家"
-//            postUser.setValue(50, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "rkWNmdyM5B")
         case 51:
-            postUser = PFUser(withoutDataWithObjectId: "8OI8iAQ7N8")
-//            postUser.username = "新北市新店區公立動物之家"
-//            postUser.setValue(51, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "63RrKDoSER")
         case 53:
-            postUser = PFUser(withoutDataWithObjectId: "qW5f2BtUl9")
-//            postUser.username = "新北市中和區公立動物之家"
-//            postUser.setValue(53, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "69Kionba8D")
         case 55:
-            postUser = PFUser(withoutDataWithObjectId: "tr4thsevfc")
-//            postUser.username = "新北市淡水區公立動物之家"
-//            postUser.setValue(55, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "OwZA5uB4RO")
         case 56:
-            postUser = PFUser(withoutDataWithObjectId: "xS9xrCnLIH")
-//            postUser.username = "新北市瑞芳區公立動物之家"
-//            postUser.setValue(56, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "87BowA1EQ2")
         case 58:
-            postUser = PFUser(withoutDataWithObjectId: "9tl715rJ0q")
-//            postUser.username = "新北市五股區公立動物之家"
-//            postUser.setValue(58, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "aS7SObCvlW")
         case 59:
-            postUser = PFUser(withoutDataWithObjectId: "vake2sftFJ")
-//            postUser.username = "新北市八里區公立動物之家"
-//            postUser.setValue(59, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "4dksN7h80F")
         case 60:
-            postUser = PFUser(withoutDataWithObjectId: "1UZDpUrpLV")
-//            postUser.username = "新北市三芝區公立動物之家"
-//            postUser.setValue(60, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "yljkAt3Gbe")
         case 61:
-            postUser = PFUser(withoutDataWithObjectId: "6CXnX5di5a")
-//            postUser.username = "桃園市動物保護教育園區"
-//            postUser.setValue(61, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "GB2B1xNpm0")
         case 62:
-            postUser = PFUser(withoutDataWithObjectId: "ZBqzs5aXGp")
-//            postUser.username = "新竹市動物收容所"
-//            postUser.setValue(62, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "tJDLL6g4uQ")
         case 63:
-            postUser = PFUser(withoutDataWithObjectId: "iZJVVyDB7C")
-//            postUser.username = "新竹縣動物收容所"
-//            postUser.setValue(63, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "VJhMHU51J3")
         case 67:
-            postUser = PFUser(withoutDataWithObjectId: "ANpBa1nFHS")
-//            postUser.username = "台中市動物之家南屯園區"
-//            postUser.setValue(67, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "wUaB9nL7Bz")
         case 68:
-            postUser = PFUser(withoutDataWithObjectId: "XseaFJdXIH")
-//            postUser.username = "台中市動物之家后里園區"
-//            postUser.setValue(68, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "hrEHLELF3B")
         case 69:
-            postUser = PFUser(withoutDataWithObjectId: "rYtTn0wMm2")
-//            postUser.username = "彰化縣流浪狗中途之家"
-//            postUser.setValue(69, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "dUiyYF2pYA")
         case 70:
-            postUser = PFUser(withoutDataWithObjectId: "ldv3sNCDpE")
-//            postUser.username = "南投縣公立動物收容所"
-//            postUser.setValue(70, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "9lWNmV7bkQ")
         case 71:
-            postUser = PFUser(withoutDataWithObjectId: "jBt35cQoRD")
-//            postUser.username = "嘉義市流浪犬收容中心"
-//            postUser.setValue(71, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "djT6DvtKe8")
         case 72:
-            postUser = PFUser(withoutDataWithObjectId: "Au3sH1YMfo")
-//            postUser.username = "嘉義縣流浪犬中途之家"
-//            postUser.setValue(72, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "lAUwi1nFdC")
         case 73:
-            postUser = PFUser(withoutDataWithObjectId: "sIK13WZL8L")
-//            postUser.username = "臺南市動物之家灣裡站"
-//            postUser.setValue(73, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "8uDIjfHzkU")
         case 74:
-            postUser = PFUser(withoutDataWithObjectId: "8bRh5TzHFr")
-//            postUser.username = "臺南市動物之家善化站"
-//            postUser.setValue(74, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "SvzOf7hh0H")
         case 75:
-            postUser = PFUser(withoutDataWithObjectId: "CjeZFL1ovZ")
-//            postUser.username = "高雄市壽山動物保護教育園區"
-//            postUser.setValue(75, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "F1W8QxiIGh")
         case 76:
-            postUser = PFUser(withoutDataWithObjectId: "8N504cZqtT")
-//            postUser.username = "高雄市燕巢動物保護關愛園區"
-//            postUser.setValue(76, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "5Cb3ZqFJCZ")
         case 77:
-            postUser = PFUser(withoutDataWithObjectId: "TBFLHWoYOH")
-//            postUser.username = "屏東縣流浪動物收容所"
-//            postUser.setValue(77, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "c0igVxnReJ")
         case 78:
-            postUser = PFUser(withoutDataWithObjectId: "qSNUr1VvAv")
-//            postUser.username = "宜蘭縣流浪動物中途之家"
-//            postUser.setValue(78, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "tam4oxzKYQ")
         case 79:
-            postUser = PFUser(withoutDataWithObjectId: "oDKoDK3iHn")
-//            postUser.username = "花蓮縣流浪犬中途之家"
-//            postUser.setValue(79, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "eW6jDwkf3g")
         case 80:
-            postUser = PFUser(withoutDataWithObjectId: "baGfNu5UuU")
-//            postUser.username = "台東縣動物收容中心"
-//            postUser.setValue(80, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "p3uG1ZFUg2")
         case 81:
-            postUser = PFUser(withoutDataWithObjectId: "0gpmNcE6cg")
-//            postUser.username = "連江縣流浪犬收容中心"
-//            postUser.setValue(81, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "hS7gxEtth6")
         case 82:
-            postUser = PFUser(withoutDataWithObjectId: "iDO5oaJdxI")
-//            postUser.username = "金門縣動物收容中心"
-//            postUser.setValue(82, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "YT9fOc95et")
         case 83:
-            postUser = PFUser(withoutDataWithObjectId: "AdvFOi6ZAn")
-//            postUser.username = "澎湖縣流浪動物收容中心"
-//            postUser.setValue(83, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "9XUrkxAGGR")
         case 89:
-            postUser = PFUser(withoutDataWithObjectId: "xk74AdqNAn")
-//            postUser.username = "雲林縣流浪動物收容所"
-//            postUser.setValue(89, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "KWbmrqcVKb")
         case 92:
-            postUser = PFUser(withoutDataWithObjectId: "Z35xFKjQz4")
-//            postUser.username = "新北市政府動物保護防疫處"
-//            postUser.setValue(92, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "ZBqx2W6wZj")
         case 96:
-            postUser = PFUser(withoutDataWithObjectId: "yBkBPWItFA")
-//            postUser.username = "苗栗縣生態保育教育中心"
-//            postUser.setValue(96, forKey: kPAPUserAnimalAreaPkidKey)
+            postUser = PFUser(withoutDataWithClassName: "_User", objectId: "FG2Jcj679Y")
         default:
             postUser = PFUser()
         }
@@ -512,5 +408,45 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    @IBAction func loginButtonPressed(_ sender: Any) {
+        let logInViewController = CustomLogInViewController()
+        logInViewController.fields = [.default, .facebook, .dismissButton, .usernameAndPassword]
+        logInViewController.delegate = self
+        
+        
+        let signUpViewController = CustomSignUpViewController()
+        signUpViewController.delegate = self
+        signUpViewController.fields = .default
+        
+        logInViewController.signUpController = signUpViewController
+        present(logInViewController, animated: true, completion: nil)
+    }
+    @IBAction func logoutButtonPressed(_ sender: Any) {
+        PFUser.logOut()
+    }
+}
+
+extension ViewController : PFLogInViewControllerDelegate {
+    func logInViewControllerDidCancelLog(in logInController: PFLogInViewController) {
+        print("logInViewControllerDidCancelLog")
+    }
+    func log(_ logInController: PFLogInViewController, didFailToLogInWithError error: Error?) {
+        print("didFailToLogInWithError\(String(describing: error?.localizedDescription))")
+    }
+    func log(_ logInController: PFLogInViewController, didLogIn user: PFUser) {
+        print("didLogin user=\(user)")
+    }
+}
+
+extension ViewController : PFSignUpViewControllerDelegate {
+    func signUpViewControllerDidCancelSignUp(_ signUpController: PFSignUpViewController) {
+        print("signUpViewControllerDidCancelSignUp")
+    }
+    func signUpViewController(_ signUpController: PFSignUpViewController, didFailToSignUpWithError error: Error?) {
+        print("didFailToSignUpWithError\(String(describing: error?.localizedDescription))")
+    }
+    func signUpViewController(_ signUpController: PFSignUpViewController, didSignUp user: PFUser) {
+        print("didSignUp user=\(user)")
     }
 }
