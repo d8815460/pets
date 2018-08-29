@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         /*
          * 將爬蟲爬回來的照片及影片，上傳至Parse Server.
          */
-        PAPUtility.saveLocalInstagramPhotoAndVideo(aPath: "/pets", toUserId: "NwErAqRy8T")
+        PAPUtility.saveLocalInstagramPhotoAndVideo(aPath: "/lovelycatonline", toUserId: "Yb2F4PtVLX")
         
         // 檢查目前的登入狀態
 //        if (FBSDKAccessToken.current() != nil) {
